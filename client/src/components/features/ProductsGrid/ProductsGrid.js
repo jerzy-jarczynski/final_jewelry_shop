@@ -3,6 +3,8 @@ import { Spinner, Row, Col } from "react-bootstrap";
 
 const ProductsGrid = ({ products }) => {
   
+  console.log(products);
+
   if (!products) {
     return (
       <Spinner animation="border" role="status" className="d-block mx-auto">
@@ -16,9 +18,7 @@ const ProductsGrid = ({ products }) => {
       {
         products.map((product, index) => (
           <Col key={index} xs={12} md={6} lg={4}>
-            `Product ${index}
-             ${product}
-            `
+            { product.title }
           </Col>
         ))
       }
