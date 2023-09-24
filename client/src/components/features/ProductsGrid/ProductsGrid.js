@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Spinner, Row, Col, Button, Card } from "react-bootstrap";
+import { Spinner, Row, Col } from "react-bootstrap";
 import ProductSummary from '../ProductSummary/ProductSummary';
 
 const ProductsGrid = ({ products }) => {
