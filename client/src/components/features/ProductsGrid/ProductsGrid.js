@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import { Spinner, Row, Col } from "react-bootstrap";
+import { Spinner, Row, Col, Button, Card } from "react-bootstrap";
+import ProductSummary from '../ProductSummary/ProductSummary';
 
 const ProductsGrid = ({ products }) => {
-  
-  const BASE_IMAGE_URL = 'http://localhost:8000/uploads/';
 
   if (!products) {
     return (
@@ -18,13 +17,7 @@ const ProductsGrid = ({ products }) => {
       {
         products.map((product, index) => (
           <Col key={index} xs={12} md={6} lg={4}>
-            { product.title }
-            <br />
-            <img 
-              src={`${BASE_IMAGE_URL}${product.photo}.png`} 
-              alt={product.title}
-              className="img-fluid"
-            />
+            <ProductSummary id={product.id} title={product.title} photo={product.photo} price={product.price} />
           </Col>
         ))
       }
