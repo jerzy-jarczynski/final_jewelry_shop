@@ -3,7 +3,7 @@ import { Spinner, Row, Col } from "react-bootstrap";
 
 const ProductsGrid = ({ products }) => {
   
-  console.log(products);
+  const BASE_IMAGE_URL = 'http://localhost:8000/uploads/';
 
   if (!products) {
     return (
@@ -19,6 +19,12 @@ const ProductsGrid = ({ products }) => {
         products.map((product, index) => (
           <Col key={index} xs={12} md={6} lg={4}>
             { product.title }
+            <br />
+            <img 
+              src={`${BASE_IMAGE_URL}${product.photo}.png`} 
+              alt={product.title}
+              className="img-fluid"
+            />
           </Col>
         ))
       }
