@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Product } from '@prisma/client';
 import { PrismaService } from 'src/shared/services/prisma.service';
+import { CreateProductDTO } from './dtos/create-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -13,6 +14,16 @@ export class ProductsService {
   public getById(id: Product['id']): Promise<Product | null> {
     return this.prismaService.product.findUnique({
       where: { id },
+    });
+  }
+
+  public create(productData: CreateProductDTO): Promise<Product> {
+    const transformedProduct = {
+      ...productData,
+      price: productData.price.toString(), // Convert number to string if needed
+    };
+    return this.prismaService.product.create({
+      data: transformedProduct,
     });
   }
 }
