@@ -83,7 +83,7 @@ const ProductOverview = () => {
       </Row>
       <Row>
         <Col>
-          <Amount />
+          <Amount title="Product amount" />
         </Col>
         <Col>
           <Picker />
