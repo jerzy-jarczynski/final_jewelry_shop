@@ -24,9 +24,7 @@ const ProductOverview = () => {
         <span className="visually-hidden">Loading...</span>
       </Spinner>
     );
-  }  
-
-  console.log(data);
+  }
 
   const productImageSrc = `${IMGS_URL}${data.photo}.png`;
 
@@ -86,9 +84,9 @@ const ProductOverview = () => {
           <Amount title="Product amount" />
         </Col>
         <Col>
-          <Picker />
+          <Picker title="Color picker" items={['gold', 'silver', 'bronze']} />
           <br />
-          <Picker />
+          <Picker title="Size picker" items={['S', 'M', 'L']} />
         </Col>
       </Row>
       <Row>
