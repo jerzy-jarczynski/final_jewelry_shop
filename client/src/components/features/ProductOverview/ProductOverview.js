@@ -1,22 +1,45 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProductById, loadProductsRequest } from "../../../redux/productsRedux";
-import { useEffect } from "react";
-import { Row, Col, Button, Card, Spinner } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Row, Col, Button, Card, Spinner, Alert } from "react-bootstrap";
 import styles from "./ProductOverview.module.scss";
 import { IMGS_URL } from "../../../config";
 import Amount from "../../common/Amount/Amount";
 import Picker from "../../common/Picker/Picker";
 
 const ProductOverview = () => {
-
   const dispatch = useDispatch();
   const { id } = useParams();
   const data = useSelector((state) => getProductById(state, id));
 
+  // State for the Amount and Pickers
+  const [productAmount, setProductAmount] = useState(1); // default amount
+  const [color, setColor] = useState("gold"); // default color
+  const [size, setSize] = useState("S"); // default size
+  const [validationError, setValidationError] = useState(null); 
+
   useEffect(() => {
     dispatch(loadProductsRequest());
   }, [dispatch, id]);
+
+  const handleAddToCart = () => {
+    if (!productAmount || productAmount < 1 || !color || !size) {
+      setValidationError("Please ensure all fields are filled and amount is at least 1.");
+      return;
+    }
+
+    const cartData = {
+      productId: id,
+      amount: productAmount,
+      color: color,
+      size: size,
+    };
+
+    console.log(cartData);
+    // Reset the validation error if any
+    setValidationError(null);
+  };
 
   if (!data) {
     return (
@@ -81,19 +104,19 @@ const ProductOverview = () => {
       </Row>
       <Row>
         <Col>
-          <Amount title="Product amount" />
+          <Amount title="Product amount" onAmountChange={setProductAmount} defaultValue={1} />
         </Col>
         <Col>
-          <Picker title="Color picker" items={['gold', 'silver', 'bronze']} />
+          <Picker title="Color picker" items={['gold', 'silver', 'bronze']} onValueChange={setColor} defaultValue="gold" />
           <br />
-          <Picker title="Size picker" items={['S', 'M', 'L']} />
+          <Picker title="Size picker" items={['S', 'M', 'L']} onValueChange={setSize} defaultValue="S" />
         </Col>
       </Row>
       <Row>
+        <Col></Col>
         <Col>
-        </Col>
-        <Col>
-          <Button>Add to cart</Button>
+          {validationError && <Alert variant="danger">{validationError}</Alert>}
+          <Button onClick={handleAddToCart}>Add to cart</Button>
         </Col>
       </Row>
     </>

@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 
-const Picker = ({ title, items = [] }) => {
-  // State to manage the selected item
-  const [selectedItem, setSelectedItem] = useState('');
+const Picker = ({ title, items = [], onValueChange, defaultValue }) => {
+  const [selectedItem, setSelectedItem] = useState(defaultValue || (items.length > 0 ? items[0] : ''));
 
-  // Function to handle radio button change
+  useEffect(() => {
+    if (items.length > 0) {
+      onValueChange(selectedItem);
+    }
+  }, [items, onValueChange, selectedItem]);
+
   const handleChange = (e) => {
-    setSelectedItem(e.target.value);
+    const newValue = e.target.value;
+    setSelectedItem(newValue);
+    onValueChange(newValue);
   };
 
   return (
@@ -16,16 +22,15 @@ const Picker = ({ title, items = [] }) => {
       <Form>
         <Row>
           {items.map((item, index) => (
-            <Col key={index} className="mb-2">
+            <Col key={index} className="text-center">
               <Form.Label>{item}</Form.Label>
               <Form.Check 
+                inline
                 type="radio"
-                name="pickerRadioGroup"
-                id={`pickerRadio-${index}`}
+                name={`${title}-group`}
                 value={item}
-                checked={selectedItem === item}
+                checked={item === selectedItem}
                 onChange={handleChange}
-                className="d-block"
               />
             </Col>
           ))}

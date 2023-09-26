@@ -1,46 +1,32 @@
-import React, { useState } from 'react';
-import { Row, Col, Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
 
-const Amount = ({ title }) => {
-  // State to manage the amount
+const Amount = ({ title, onAmountChange }) => {
   const [amount, setAmount] = useState(1);
 
-  // Function to increase the amount by 1
+  useEffect(() => {
+    onAmountChange(amount); // Ensuring that the parent has the initial default amount
+  }, [amount, onAmountChange]);
+
   const handleIncrease = () => {
-    setAmount(prevAmount => prevAmount + 1);
+    if (amount < 10) {
+      const newAmount = amount + 1;
+      setAmount(newAmount);
+    }
   };
 
-  // Function to decrease the amount by 1 but not below 0
   const handleDecrease = () => {
-    setAmount(prevAmount => (prevAmount > 0 ? prevAmount - 1 : 0));
-  };
-
-  // Function to handle manual input change
-  const handleInputChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value >= 0) {
-      setAmount(value);
+    if (amount > 1) {
+      const newAmount = amount - 1;
+      setAmount(newAmount);
     }
   };
 
   return (
     <div>
       <h4>{title}</h4>
-      <Row>
-        <Col>
-          <Button onClick={handleDecrease}>Less</Button>
-        </Col>
-        <Col>
-          <Form.Control
-            type="number"
-            value={amount}
-            onChange={handleInputChange}
-          />
-        </Col>
-        <Col>
-          <Button onClick={handleIncrease}>More</Button>
-        </Col>
-      </Row>
+      <button onClick={handleDecrease} disabled={amount <= 1}>-</button>
+      <input type="number" value={amount} readOnly />
+      <button onClick={handleIncrease} disabled={amount >= 10}>+</button>
     </div>
   );
 };
