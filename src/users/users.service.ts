@@ -87,6 +87,12 @@ export class UsersService {
     }
   }
 
+  public deleteById(id: User['id']): Promise<User> {
+    return this.prismaService.user.delete({
+      where: { id },
+    });
+  }
+
   public async createCart(userId: User['id']): Promise<User & { cart: Cart }> {
     const newCart = await this.prismaService.cart.create({
       data: {
