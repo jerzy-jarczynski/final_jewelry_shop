@@ -4,7 +4,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Password, User } from '@prisma/client';
+import { Password, User, Cart } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   public async create(
-    userData: Omit<User, 'id' | 'role'>,
+    userData: Omit<User, 'id' | 'role' | 'cartId'>,
     password: Password['hashedPassword'],
   ): Promise<User> {
     try {
@@ -85,9 +85,20 @@ export class UsersService {
     }
   }
 
-  public delete(id: User['id']): Promise<User> {
-    return this.prismaService.user.delete({
-      where: { id },
+  public async createCart(userId: User['id']): Promise<User & { cart: Cart }> {
+    const newCart = await this.prismaService.cart.create({
+      data: {
+        userId: userId,
+      },
+    });
+    return this.prismaService.user.update({
+      where: { id: userId },
+      data: {
+        cartId: newCart.id,
+      },
+      include: {
+        cart: true,
+      },
     });
   }
 }
