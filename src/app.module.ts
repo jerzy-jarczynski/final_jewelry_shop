@@ -10,6 +10,7 @@ import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ProductsModule } from './products/products.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ProductsModule } from './products/products.module';
       rootPath: join(__dirname, '..', '..', 'client', 'build'),
     }),
     ProductsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
