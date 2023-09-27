@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-const db = new PrismaClient();
 import { Role } from './enums/role';
+
+const db = new PrismaClient();
 
 function getProducts() {
   return [
@@ -29,10 +30,7 @@ function getUsers() {
       email: 'anna@example.com',
       address: '123 St, NY',
       role: Role.USER,
-      password: {
-        id: 'pw1',
-        hashedPassword: 'hashed_password_here',
-      },
+      // hashedPassword will be associated in the getPasswords function
     },
     {
       id: 'user2',
@@ -40,10 +38,20 @@ function getUsers() {
       email: 'john@example.com',
       address: '456 St, LA',
       role: Role.ADMIN,
-      password: {
-        id: 'pw2',
-        hashedPassword: 'another_hashed_password',
-      },
+      // hashedPassword will be associated in the getPasswords function
+    },
+  ];
+}
+
+function getPasswords() {
+  return [
+    {
+      user: { connect: { id: 'user1' } },
+      hashedPassword: 'hashed_password_here',
+    },
+    {
+      user: { connect: { id: 'user2' } },
+      hashedPassword: 'another_hashed_password',
     },
   ];
 }
@@ -52,21 +60,32 @@ function getCarts() {
   return [
     {
       id: 'cart1',
+      user: { connect: { id: 'user1' } },
+    },
+    {
+      id: 'cart2',
+      user: { connect: { id: 'user2' } },
+    },
+  ];
+}
+
+function getCartItems() {
+  return [
+    {
+      cart: { connect: { id: 'cart1' } },
       product: { connect: { id: 'prod1' } },
       amount: 1,
       color: 'Silver',
       size: 'M',
       comment: 'Gift wrap it!',
-      user: { connect: { id: 'user1' } },
     },
     {
-      id: 'cart2',
+      cart: { connect: { id: 'cart2' } },
       product: { connect: { id: 'prod2' } },
       amount: 2,
       color: 'Gold',
       size: 'L',
       comment: 'Please deliver faster!',
-      user: { connect: { id: 'user2' } },
     },
   ];
 }
@@ -87,23 +106,30 @@ function getOrders() {
 }
 
 async function seed() {
+  await db.order.deleteMany();
+  await db.cartItem.deleteMany();
+  await db.cart.deleteMany();
+  await db.user.deleteMany(); // This will also delete Password because of cascade delete
+  await db.product.deleteMany();
+
   for (const product of getProducts()) {
     await db.product.create({ data: product });
   }
 
   for (const user of getUsers()) {
-    await db.user.create({
-      data: {
-        ...user,
-        password: {
-          create: user.password,
-        },
-      },
-    });
+    await db.user.create({ data: user });
+  }
+
+  for (const password of getPasswords()) {
+    await db.password.create({ data: password });
   }
 
   for (const cart of getCarts()) {
     await db.cart.create({ data: cart });
+  }
+
+  for (const cartItem of getCartItems()) {
+    await db.cartItem.create({ data: cartItem });
   }
 
   for (const order of getOrders()) {
