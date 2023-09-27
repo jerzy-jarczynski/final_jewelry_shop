@@ -6,9 +6,11 @@ import {
   ParseUUIDPipe,
   Post,
   Body,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('products')
 export class ProductsController {
@@ -27,6 +29,7 @@ export class ProductsController {
   }
 
   @Post('/')
+  @UseGuards(JwtAuthGuard)
   create(@Body() productData: CreateProductDTO) {
     return this.productsService.create(productData);
   }
