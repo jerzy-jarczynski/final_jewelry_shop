@@ -3,8 +3,8 @@ export const API_URL =
 
 export const API_AUTH_URL =
   process.env.NODE_ENV === "production"
-    ? "/auth"
-    : "http://localhost:8000/auth";
+    ? "api/auth"
+    : "http://localhost:8000/api/auth";
 
 export const IMGS_URL =
   process.env.NODE_ENV === "production"

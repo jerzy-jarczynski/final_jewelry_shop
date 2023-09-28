@@ -14,7 +14,7 @@ const LOG_OUT = createActionName("LOG_OUT");
 const SET_ERROR = createActionName("SET_ERROR");
 
 // ACTION CREATORS
-export const logIn = (payload) => ({ type: LOG_IN, payload });
+export const logIn = (user) => ({ type: LOG_IN, payload: user });
 export const logOut = () => ({ type: LOG_OUT });
 export const setError = (payload) => ({ type: SET_ERROR, payload });
 
