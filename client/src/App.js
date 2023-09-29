@@ -5,6 +5,7 @@ import NotFound from "./components/pages/NotFound/NotFound";
 import ProductDetails from "./components/pages/ProductDetails/ProductDetails"
 import Login from "./components/pages/Login/Login";
 import Logout from "./components/pages/Logout/Logout";
+import Register from "./components/pages/Register/Register";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>
