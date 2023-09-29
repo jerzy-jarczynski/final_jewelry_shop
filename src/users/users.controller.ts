@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  ParseUUIDPipe,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, ParseUUIDPipe, Delete, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AdminAuthGuard } from 'src/auth/admin-auth.guard';

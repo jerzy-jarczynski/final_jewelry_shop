@@ -6,6 +6,8 @@ import {
   Request,
   Response,
   Delete,
+  Get,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDTO } from './dtos/register.dto';
@@ -29,6 +31,12 @@ export class AuthController {
     res.send({
       message: 'success',
     });
+  }
+
+  @Get('/user')
+  @UseGuards(JwtAuthGuard)
+  getUser(@Req() req): any {
+    return req.user; // This contains the user data set in JwtStrategy's validate method.
   }
 
   @UseGuards(JwtAuthGuard)

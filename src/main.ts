@@ -10,8 +10,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   // Enable CORS
-  app.enableCors();
-
+  app.enableCors({
+    origin: 'http://localhost:3000',  // This is the frontend's address
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   // Use cookie-parser middleware
   app.use(cookieParser());
 
