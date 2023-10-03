@@ -28,9 +28,11 @@ const LoginForm = () => {
         if (!res.ok) {
           throw new Error(res.statusText);
         }
+        console.log(res);
         return res.json();
       })
       .then(data => {
+        console.log(data);
         setStatus('success');
         dispatch(logIn(data)); 
       })

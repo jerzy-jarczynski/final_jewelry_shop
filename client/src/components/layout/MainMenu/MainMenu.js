@@ -6,6 +6,8 @@ import { getUser } from "../../../redux/usersRedux";
 const MainMenu = () => {
   const user = useSelector(getUser);
 
+  console.log("User object:", user);
+  
   return (
     <Navbar bg="primary" data-bs-theme="primary" className="rounded my-4 px-4">
       <Navbar.Brand as={Link} to="/" className="text-white" style={{ textDecoration: "none" }}>
@@ -14,6 +16,9 @@ const MainMenu = () => {
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">
         <Nav>
+          {user && (
+            <div className="text-white my-auto mx-3">Logged as {user.login}</div>
+          )}
           <Button as={Link} to={user ? "/cart" : "/login"} variant="warning" className="text-white">
             Cart
           </Button>

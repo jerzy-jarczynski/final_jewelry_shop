@@ -29,7 +29,6 @@ const RegisterForm = () => {
     if (!formData.address) newErrors.address = "Address is required";
 
     setErrors(newErrors);
-    console.log("Form errors:", newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       const data = {
@@ -46,23 +45,15 @@ const RegisterForm = () => {
 
       setStatus('loading');
 
-      console.log("Sending data:", data);
       fetch(`${API_AUTH_URL}/register`, options)
       .then(res => {
-          console.log("Server Response:", res);
-          
-          // Check the status here and attach it to the data object.
           let status = res.status;
           return res.json().then(data => ({...data, status}));
       })  
       .then(data => {
-          console.log("Data from server:", data);
-          
-          // Now check using data.status
           if (data.status === 201) {
               setStatus('success');
           } else if (data.status === 400) {
-              console.error(data.message);
               setStatus('clientError');
           } else if (data.status === 409) {
               setStatus('loginError');
@@ -75,7 +66,6 @@ const RegisterForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("Change in field:", name, "Value:", value);
     setFormData(prevData => ({
       ...prevData,
       [name]: value
