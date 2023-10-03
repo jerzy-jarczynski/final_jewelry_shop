@@ -1,4 +1,4 @@
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
@@ -14,6 +14,9 @@ const MainMenu = () => {
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">
         <Nav>
+          <Button as={Link} to={user ? "/cart" : "/login"} variant="warning" className="text-white">
+            Cart
+          </Button>
           {!user && (
             <Nav.Link as={Link} to="/login" className="text-white" style={{ textDecoration: "none" }}>
               Sign In

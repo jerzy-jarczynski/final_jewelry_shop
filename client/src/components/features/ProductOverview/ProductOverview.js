@@ -7,11 +7,15 @@ import styles from "./ProductOverview.module.scss";
 import { IMGS_URL } from "../../../config";
 import Amount from "../../common/Amount/Amount";
 import Picker from "../../common/Picker/Picker";
+import { getUser } from "../../../redux/usersRedux";
+import { useNavigate } from 'react-router-dom';
 
 const ProductOverview = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const data = useSelector((state) => getProductById(state, id));
+  const user = useSelector(getUser);
+  const navigate = useNavigate();
 
   // State for the Amount and Pickers
   const [productAmount, setProductAmount] = useState(1); // default amount
@@ -24,6 +28,11 @@ const ProductOverview = () => {
   }, [dispatch, id]);
 
   const handleAddToCart = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     if (!productAmount || productAmount < 1 || !color || !size) {
       setValidationError("Please ensure all fields are filled and amount is at least 1.");
       return;
@@ -116,7 +125,7 @@ const ProductOverview = () => {
         <Col></Col>
         <Col>
           {validationError && <Alert variant="danger">{validationError}</Alert>}
-          <Button onClick={handleAddToCart}>Add to cart</Button>
+          <Button onClick={handleAddToCart} variant="warning" className="text-white">Add to cart</Button>
         </Col>
       </Row>
     </>
