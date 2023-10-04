@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartProducts, loadCartProductsRequest } from "../../../redux/cartRedux";
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
+import CartTable from "../CartTable/CartTable";
 
 const CartContent = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const CartContent = () => {
   const reduxCartProducts = useSelector(getCartProducts);
 
   useEffect(() => {
-    if (reduxCartProducts && Array.isArray(reduxCartProducts)) {
+    if (reduxCartProducts) {
       setCartProducts(reduxCartProducts);
     }
   }, [reduxCartProducts]);
@@ -32,7 +33,11 @@ const CartContent = () => {
   
   return (
     <>
-      Cart Content
+      {cartProducts.cartItems.length === 0 ? (
+        <p>You have no items in the cart</p>
+      ) : (
+        <CartTable items={cartProducts.cartItems} />
+      )}
     </>
   );
 };
