@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Row, Col, Button, Card, Spinner, Alert } from "react-bootstrap";
 import styles from "./ProductOverview.module.scss";
 import { IMGS_URL } from "../../../config";
+import { API_URL } from "../../../config";
 import Amount from "../../common/Amount/Amount";
 import Picker from "../../common/Picker/Picker";
 import { getUser } from "../../../redux/usersRedux";
@@ -27,28 +28,51 @@ const ProductOverview = () => {
     dispatch(loadProductsRequest());
   }, [dispatch, id]);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!user) {
       navigate("/login");
       return;
     }
-
+  
     if (!productAmount || productAmount < 1 || !color || !size) {
       setValidationError("Please ensure all fields are filled and amount is at least 1.");
       return;
     }
-
+  
     const cartData = {
       productId: id,
       amount: productAmount,
       color: color,
       size: size,
     };
-
-    console.log(cartData);
-    // Reset the validation error if any
-    setValidationError(null);
+  
+    try {
+      const response = await fetch(`${API_URL}/cart/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartData),
+        credentials: 'include',  // This ensures cookies are sent with the request
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to add item to cart.");
+      }
+  
+      const responseData = await response.json();
+      console.log(responseData);
+  
+      // Optionally, show a success message or do any other UI updates
+      setValidationError(null);
+  
+    } catch (error) {
+      console.error(error);
+      // Handle error (e.g., show an error message to the user)
+      setValidationError("Failed to add item to cart. Please try again.");
+    }
   };
+  
 
   if (!data) {
     return (
