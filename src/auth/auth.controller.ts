@@ -30,6 +30,7 @@ export class AuthController {
     res.cookie('auth', tokens, { httpOnly: true });
     res.send({
       message: 'success',
+      login: req.user.email,
     });
   }
 

@@ -5,8 +5,6 @@ import { getUser } from "../../../redux/usersRedux";
 
 const MainMenu = () => {
   const user = useSelector(getUser);
-
-  console.log("User object:", user);
   
   return (
     <Navbar bg="primary" data-bs-theme="primary" className="rounded my-4 px-4">
