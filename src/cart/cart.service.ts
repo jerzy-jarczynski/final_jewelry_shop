@@ -38,5 +38,12 @@ export class CartService {
     return this.prismaService.cartItem.delete({
       where: { id: cartItemId },
     });
-  }  
+  }
+
+  public async updateCartItem(cartItemId: string, updateData: CreateCartItemDto) {
+    return this.prismaService.cartItem.update({
+        where: { id: cartItemId },
+        data: updateData,
+    });
+  }
 }
