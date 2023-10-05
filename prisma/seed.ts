@@ -30,7 +30,6 @@ function getUsers() {
       email: 'anna@example.com',
       address: '123 St, NY',
       role: Role.USER,
-      // hashedPassword will be associated in the getPasswords function
     },
     {
       id: 'user2',
@@ -38,7 +37,6 @@ function getUsers() {
       email: 'john@example.com',
       address: '456 St, LA',
       role: Role.ADMIN,
-      // hashedPassword will be associated in the getPasswords function
     },
   ];
 }
@@ -94,7 +92,7 @@ function getOrders() {
   return [
     {
       id: 'order1',
-      cart: { connect: { id: 'cart1' } },
+      user: { connect: { id: 'user1' } },
       date: new Date(),
       priceSum: 500,
       comment: 'Gift wrap',
@@ -105,11 +103,25 @@ function getOrders() {
   ];
 }
 
+function getOrderItems() {
+  return [
+      {
+          order: { connect: { id: 'order1' } },
+          product: { connect: { id: 'prod1' } },
+          amount: 1,
+          color: 'Silver',
+          size: 'M',
+          comment: 'Gift wrap it!',
+      },
+  ];
+}
+
 async function seed() {
+  await db.orderItem.deleteMany();
   await db.order.deleteMany();
   await db.cartItem.deleteMany();
   await db.cart.deleteMany();
-  await db.user.deleteMany(); // This will also delete Password because of cascade delete
+  await db.user.deleteMany();
   await db.product.deleteMany();
 
   for (const product of getProducts()) {
@@ -135,6 +147,10 @@ async function seed() {
   for (const order of getOrders()) {
     await db.order.create({ data: order });
   }
+
+  for (const orderItem of getOrderItems()) {
+    await db.orderItem.create({ data: orderItem });
+  }  
 }
 
 seed()

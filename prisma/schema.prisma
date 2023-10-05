@@ -13,7 +13,8 @@ model Product {
   photo       String
   price       Decimal
   description String
-  cartItems   CartItem[]  
+  cartItems   CartItem[]
+  orderItems  OrderItem[] @relation(name: "ProductToOrderItem")
 }
 
 model Cart {
@@ -21,15 +22,13 @@ model Cart {
   user        User        @relation("UserToCart", fields: [userId], references: [id], onDelete: Cascade)
   userId      String      @unique
   cartItems   CartItem[]  
-  order       Order?      @relation(name: "CartToOrder")
-
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
 
 model CartItem {
   id        String   @id @default(uuid())
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade) // <-- added here
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    String
   product   Product  @relation(fields: [productId], references: [id])
   productId String
@@ -37,23 +36,37 @@ model CartItem {
   color     String
   size      String
   comment   String?
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  cart      Cart     @relation(name: "CartToOrder", fields: [cartId], references: [id])
-  cartId    String   @unique
-  date      DateTime
-  priceSum  Decimal
-  comment   String?
-  clientName String?
-  email     String?
-  address   String?
+  id          String      @id @default(uuid())
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+  date        DateTime
+  priceSum    Decimal
+  comment     String?
+  clientName  String?
+  email       String?
+  address     String?
+  orderItems  OrderItem[] 
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
 
-  createdAt DateTime @default(now())
+model OrderItem {
+  id          String   @id @default(uuid())
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     String
+  product     Product  @relation(name: "ProductToOrderItem", fields: [productId], references: [id])
+  productId   String
+  amount      Int
+  color       String
+  size        String
+  comment     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum Role {
@@ -64,17 +77,18 @@ enum Role {
 model User {
   id       String    @id @default(uuid())
   email    String    @unique
-  name     String?   // <-- add this line
-  address  String?   // <-- add this line
+  name     String? 
+  address  String?   
   role     Role      @default(USER)
   cart     Cart?     @relation("UserToCart")
   cartId   String?   @unique
+  orders   Order[]
   password Password?
 }
 
 model Password {
-  id       String @id @default(uuid())
+  id             String @id @default(uuid())
   hashedPassword String
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String @unique
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String @unique
 }
