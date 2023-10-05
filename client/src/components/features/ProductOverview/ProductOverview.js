@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProductById, loadProductsRequest } from "../../../redux/productsRedux";
 import { useEffect, useState } from "react";
-import { Row, Col, Button, Card, Spinner, Alert } from "react-bootstrap";
+import { Row, Col, Button, Card, Spinner, Alert, Form } from "react-bootstrap";
 import styles from "./ProductOverview.module.scss";
 import { IMGS_URL } from "../../../config";
 import { API_URL } from "../../../config";
@@ -18,10 +18,10 @@ const ProductOverview = () => {
   const user = useSelector(getUser);
   const navigate = useNavigate();
 
-  // State for the Amount and Pickers
-  const [productAmount, setProductAmount] = useState(1); // default amount
-  const [color, setColor] = useState("gold"); // default color
-  const [size, setSize] = useState("S"); // default size
+  const [productAmount, setProductAmount] = useState(1);
+  const [color, setColor] = useState("gold");
+  const [size, setSize] = useState("S");
+  const [comment, setComment] = useState("");
   const [validationError, setValidationError] = useState(null); 
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const ProductOverview = () => {
       amount: productAmount,
       color: color,
       size: size,
+      comment: comment,
     };
   
     try {
@@ -53,7 +54,7 @@ const ProductOverview = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(cartData),
-        credentials: 'include',  // This ensures cookies are sent with the request
+        credentials: 'include',
       });
   
       if (!response.ok) {
@@ -63,12 +64,10 @@ const ProductOverview = () => {
       const responseData = await response.json();
       console.log(responseData);
   
-      // Optionally, show a success message or do any other UI updates
       setValidationError(null);
   
     } catch (error) {
       console.error(error);
-      // Handle error (e.g., show an error message to the user)
       setValidationError("Failed to add item to cart. Please try again.");
     }
   };
@@ -140,8 +139,19 @@ const ProductOverview = () => {
           <Amount title="Product amount" onAmountChange={setProductAmount} defaultValue={1} />
         </Col>
         <Col>
+          {user && (
+            <Form.Group className="mb-3" controlId="productComment">
+              <Form.Label>Comment</Form.Label>
+              <Form.Control as="textarea" rows={3} onChange={(e) => setComment(e.target.value)} />
+            </Form.Group>
+          )}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
           <Picker title="Color picker" items={['gold', 'silver', 'bronze']} onValueChange={setColor} defaultValue="gold" />
-          <br />
+        </Col>
+        <Col>
           <Picker title="Size picker" items={['S', 'M', 'L']} onValueChange={setSize} defaultValue="S" />
         </Col>
       </Row>
