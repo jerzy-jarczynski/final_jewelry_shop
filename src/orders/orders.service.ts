@@ -50,8 +50,9 @@ export class OrdersService {
     });
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string): Promise<{ message: string }> {
     await this.prismaService.order.delete({ where: { id } });
+    return { message: 'Order and its items successfully deleted.' };
   }
 
   async createOrderItem(data: CreateOrderItemDTO): Promise<OrderItem> {
