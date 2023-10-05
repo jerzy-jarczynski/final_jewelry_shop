@@ -4,7 +4,6 @@ import { getProducts } from '../../../redux/productsRedux';
 import { returnImgSrc } from '../../../utils/renderImgSrc';
 
 const CartTable = ({ items }) => {
-    // Fetch all products from the store
     const allProducts = useSelector(state => getProducts(state));
 
     return (
@@ -23,7 +22,6 @@ const CartTable = ({ items }) => {
             </thead>
             <tbody>
                 {items.map((item, index) => {
-                    // Find the product details from the array
                     const productDetails = allProducts.find(product => product.id === item.productId);
                     return (
                         <tr key={item.id}>

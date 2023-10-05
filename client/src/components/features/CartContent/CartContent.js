@@ -21,8 +21,6 @@ const CartContent = () => {
     dispatch(loadCartProductsRequest());
   }, [dispatch]);
 
-  console.log("data", cartProducts);
-
   if (!cartProducts) {
     return (
       <Spinner animation="border" role="status" className="d-block mx-auto">
