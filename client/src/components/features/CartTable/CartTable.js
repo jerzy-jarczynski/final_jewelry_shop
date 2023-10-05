@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Button, Modal } from 'react-bootstrap';
+import { Table, Button, Modal, Form } from 'react-bootstrap';
 import { getProducts } from '../../../redux/productsRedux';
 import { returnImgSrc } from '../../../utils/renderImgSrc';
 import { deleteCartItemRequest, loadCartProductsRequest } from '../../../redux/cartRedux';
@@ -10,6 +10,7 @@ const CartTable = ({ items }) => {
     const allProducts = useSelector(state => getProducts(state));
     const [showModal, setShowModal] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
+    const [editedItems, setEditedItems] = useState({});
 
     const handleDelete = (item) => {
         const productDetails = allProducts.find(product => product.id === item.productId);
@@ -31,6 +32,32 @@ const CartTable = ({ items }) => {
         setItemToDelete(null);
     };
 
+    const handleEditChange = (itemId, field, value) => {
+        setEditedItems(prevState => ({
+            ...prevState,
+            [itemId]: {
+                ...prevState[itemId],
+                [field]: value
+            }
+        }));
+    };
+
+    const saveChanges = (itemId) => {
+    };    
+
+    useEffect(() => {
+        const initialEditedItems = items.reduce((acc, item) => {
+            acc[item.id] = {
+                amount: item.amount,
+                size: item.size,
+                color: item.color,
+                comment: item.comment,
+            };
+            return acc;
+        }, {});
+        setEditedItems(initialEditedItems);
+    }, [items]);
+
     return (
         <>
             <Table striped bordered hover>
@@ -50,6 +77,7 @@ const CartTable = ({ items }) => {
                 <tbody>
                     {items.map((item, index) => {
                         const productDetails = allProducts.find(product => product.id === item.productId);
+                        const currentEditableItem = editedItems[item.id] || {};
                         return (
                             <tr key={item.id}>
                                 <td>{index + 1}</td>
@@ -61,13 +89,44 @@ const CartTable = ({ items }) => {
                                     />
                                 </td>
                                 <td>{productDetails.title}</td>
-                                <td>{item.amount}</td>
-                                <td>{item.size}</td>
-                                <td>{item.color}</td>
+                                <td>
+                                    <Form.Control
+                                        type="number"
+                                        value={currentEditableItem.amount}
+                                        onChange={(e) => handleEditChange(item.id, 'amount', e.target.value)}
+                                    />
+                                </td>
+                                <td>
+                                    <Form.Select
+                                        value={currentEditableItem.size}
+                                        onChange={(e) => handleEditChange(item.id, 'size', e.target.value)}
+                                    >
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                    </Form.Select>
+                                </td>
+                                <td>
+                                    <Form.Select
+                                        value={currentEditableItem.color}
+                                        onChange={(e) => handleEditChange(item.id, 'color', e.target.value)}
+                                    >
+                                        <option value="gold">Gold</option>
+                                        <option value="silver">Silver</option>
+                                        <option value="bronze">Bronze</option>
+                                    </Form.Select>
+                                </td>
                                 <td>{productDetails.price}</td>
-                                <td>{item.comment}</td>
+                                <td>
+                                    <Form.Control
+                                        as="textarea"
+                                        value={currentEditableItem.comment}
+                                        onChange={(e) => handleEditChange(item.id, 'comment', e.target.value)}
+                                    />
+                                </td>
                                 <td>
                                     <Button variant="danger" onClick={() => handleDelete(item)}>Delete</Button>
+                                    <Button variant="success" onClick={() => saveChanges(item.id)}>Save</Button>
                                 </td>
                             </tr>
                         );
