@@ -71,6 +71,17 @@ const CartTable = ({ items }) => {
         setEditedItems(initialEditedItems);
     }, [items]);
 
+    const totalAmount = items.reduce((acc, item) => {
+        const currentEditableItem = editedItems[item.id] || {};
+        return acc + currentEditableItem.amount;
+    }, 0);
+
+    const totalSum = items.reduce((acc, item) => {
+        const productDetails = allProducts.find(product => product.id === item.productId);
+        const currentEditableItem = editedItems[item.id] || {};
+        return acc + (productDetails.price * currentEditableItem.amount);
+    }, 0);    
+
     return (
         <>
             <Table striped bordered hover>
@@ -83,6 +94,7 @@ const CartTable = ({ items }) => {
                         <th>Size</th>
                         <th>Color</th>
                         <th>Price</th>
+                        <th>Total Price</th>
                         <th>Comment</th>
                         <th>Action</th>
                     </tr>
@@ -91,6 +103,8 @@ const CartTable = ({ items }) => {
                     {items.map((item, index) => {
                         const productDetails = allProducts.find(product => product.id === item.productId);
                         const currentEditableItem = editedItems[item.id] || {};
+                        const totalPrice = productDetails.price * currentEditableItem.amount;
+
                         return (
                             <tr key={item.id}>
                                 <td>{index + 1}</td>
@@ -130,6 +144,7 @@ const CartTable = ({ items }) => {
                                     </Form.Select>
                                 </td>
                                 <td>{productDetails.price}</td>
+                                <td>{totalPrice}</td>
                                 <td>
                                     <Form.Control
                                         as="textarea"
@@ -144,6 +159,17 @@ const CartTable = ({ items }) => {
                             </tr>
                         );
                     })}
+                </tbody>
+            </Table>
+            <Table bordered>
+                <tbody>
+                    <tr>
+                        <td colSpan="3">Total</td>
+                        <td>{totalAmount}</td>
+                        <td colSpan="3"></td>
+                        <td>{totalSum}</td>
+                        <td colSpan="2"></td>
+                    </tr>
                 </tbody>
             </Table>
 
