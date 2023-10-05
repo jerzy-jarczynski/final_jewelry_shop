@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Req} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDTO } from './dtos/create-order.dto';
 import { CreateOrderItemDTO } from './dtos/create-order-item.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AdminAuthGuard } from 'src/auth/admin-auth.guard';
+import { Request } from 'express';
 
 @Controller('orders')
 export class OrdersController {
@@ -11,8 +12,9 @@ export class OrdersController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Req() req: Request) {
+    const userId = (req.user as any).id;
+    return this.ordersService.findAll(userId);
   }
 
   @Get('/:id')

@@ -8,12 +8,23 @@ import { CreateOrderItemDTO } from './dtos/create-order-item.dto';
 export class OrdersService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAll(): Promise<Order[]> {
-    return this.prismaService.order.findMany({
-      include: {
-        orderItems: true
-      }
-    });
+  async findAll(userId?: string): Promise<Order[]> {
+    if (userId) {
+        return this.prismaService.order.findMany({
+            where: {
+                userId: userId,
+            },
+            include: {
+                orderItems: true,
+            },
+        });
+    } else {
+        return this.prismaService.order.findMany({
+            include: {
+                orderItems: true,
+            },
+        });
+    }
   }
   
   async findOne(id: string): Promise<Order | null> {
