@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import { getProducts } from '../../../redux/productsRedux';
 import { returnImgSrc } from '../../../utils/renderImgSrc';
-import { deleteCartItemRequest, loadCartProductsRequest } from '../../../redux/cartRedux';
+import { deleteCartItemRequest, loadCartProductsRequest, updateCartItemRequest } from '../../../redux/cartRedux';
 
 const CartTable = ({ items }) => {
     const dispatch = useDispatch();
@@ -11,6 +11,7 @@ const CartTable = ({ items }) => {
     const [showModal, setShowModal] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
     const [editedItems, setEditedItems] = useState({});
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const handleDelete = (item) => {
         const productDetails = allProducts.find(product => product.id === item.productId);
@@ -33,17 +34,29 @@ const CartTable = ({ items }) => {
     };
 
     const handleEditChange = (itemId, field, value) => {
+        let processedValue = field === 'amount' ? parseInt(value, 10) : value;
+    
         setEditedItems(prevState => ({
             ...prevState,
             [itemId]: {
                 ...prevState[itemId],
-                [field]: value
+                [field]: processedValue
             }
         }));
     };
 
     const saveChanges = (itemId) => {
-    };    
+        const itemData = editedItems[itemId];
+        if (itemData) {
+            dispatch(updateCartItemRequest(itemId, itemData))
+                .then(() => {
+                    setShowConfirmationModal(true);
+                })
+                .catch(error => {
+                    console.error("Error updating item:", error);
+                });
+        }
+    };
 
     useEffect(() => {
         const initialEditedItems = items.reduce((acc, item) => {
@@ -149,7 +162,24 @@ const CartTable = ({ items }) => {
                         Confirm
                     </Button>
                 </Modal.Footer>
-            </Modal>   
+            </Modal>
+
+            <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Data has been successfully saved!
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => {
+                        setShowConfirmationModal(false);
+                        dispatch(loadCartProductsRequest()); // Refresh data
+                    }}>
+                        OK
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };

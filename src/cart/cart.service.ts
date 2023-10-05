@@ -42,8 +42,10 @@ export class CartService {
 
   public async updateCartItem(cartItemId: string, updateData: CreateCartItemDto) {
     return this.prismaService.cartItem.update({
-        where: { id: cartItemId },
-        data: updateData,
+      where: {
+        id: cartItemId
+      },
+      data: updateData
     });
   }
 }
