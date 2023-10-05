@@ -6,6 +6,8 @@ import { returnImgSrc } from '../../../utils/renderImgSrc';
 const CartTable = ({ items }) => {
     const allProducts = useSelector(state => getProducts(state));
 
+    console.log(items);
+
     return (
         <Table striped bordered hover>
             <thead>

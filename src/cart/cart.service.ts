@@ -32,5 +32,11 @@ export class CartService {
         comment: createCartItemDto.comment
       }
     });
-  }    
+  }
+
+  public async deleteCartItem(cartItemId: string) {
+    return this.prismaService.cartItem.delete({
+      where: { id: cartItemId },
+    });
+  }  
 }
