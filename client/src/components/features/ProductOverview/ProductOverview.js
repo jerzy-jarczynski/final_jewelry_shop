@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProductById, loadProductsRequest } from "../../../redux/productsRedux";
 import { useEffect, useState } from "react";
-import { Row, Col, Button, Card, Spinner, Alert, Form } from "react-bootstrap";
+import { Row, Col, Button, Card, Spinner, Alert, Form, Modal } from "react-bootstrap";
 import styles from "./ProductOverview.module.scss";
 import { IMGS_URL } from "../../../config";
 import { API_URL } from "../../../config";
@@ -22,6 +22,7 @@ const ProductOverview = () => {
   const [color, setColor] = useState("gold");
   const [size, setSize] = useState("S");
   const [comment, setComment] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const [validationError, setValidationError] = useState(null); 
 
   useEffect(() => {
@@ -62,15 +63,23 @@ const ProductOverview = () => {
       }
   
       const responseData = await response.json();
-      console.log(responseData);
   
       setValidationError(null);
+      setShowModal(true);
   
     } catch (error) {
       console.error(error);
       setValidationError("Failed to add item to cart. Please try again.");
     }
   };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const goToCart = () => {
+    navigate("/cart");
+  };  
   
 
   if (!data) {
@@ -162,6 +171,23 @@ const ProductOverview = () => {
           <Button onClick={handleAddToCart} variant="warning" className="text-white">Add to cart</Button>
         </Col>
       </Row>
+
+      <Modal show={showModal} onHide={closeModal}>
+        <Modal.Header closeButton>
+            <Modal.Title>Success</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            Product successfully added to cart.
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal}>
+                Stay on page
+            </Button>
+            <Button variant="primary" onClick={goToCart}>
+                Go to cart
+            </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 
