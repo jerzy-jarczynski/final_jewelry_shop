@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { CartModule } from './cart/cart.module';
+import { OrdersModule } from './orders/orders.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -31,6 +32,7 @@ import configuration from './config/configuration';
       isGlobal: true,
     }),
     CartModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
