@@ -2,10 +2,10 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUser, isUserLoading } from "../../../redux/usersRedux";
 import { useEffect } from "react";
-import CartContent from "../../features/CartContent/CartContent";
+import OrdersContent from "../../features/OrdersContent/OrdersContent";
 import { Spinner } from 'react-bootstrap';
 
-const Cart = () => {
+const Orders = () => {
   const user = useSelector(getUser);
   const loading = useSelector(isUserLoading);
   const navigate = useNavigate();
@@ -30,10 +30,10 @@ const Cart = () => {
 
   return (
     <>
-      <h2>Cart</h2>
-      <CartContent />
+      <h2>Orders</h2>
+      <OrdersContent />
     </>
   );
 };
 
-export default Cart;
+export default Orders;

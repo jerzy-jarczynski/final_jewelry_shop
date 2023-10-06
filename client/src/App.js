@@ -7,6 +7,7 @@ import Login from "./components/pages/Login/Login";
 import Logout from "./components/pages/Logout/Logout";
 import Register from "./components/pages/Register/Register";
 import Cart from "./components/pages/Cart/Cart";
+import Orders from "./components/pages/Orders/Orders";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>

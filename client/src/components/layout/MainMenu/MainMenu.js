@@ -20,6 +20,11 @@ const MainMenu = () => {
           <Button as={Link} to={user ? "/cart" : "/login"} variant="warning" className="text-white">
             Cart
           </Button>
+          {user && (
+            <Nav.Link as={Link} to="/orders" className="text-white" style={{ textDecoration: "none" }}>
+              Orders
+            </Nav.Link>
+          )}          
           {!user && (
             <Nav.Link as={Link} to="/login" className="text-white" style={{ textDecoration: "none" }}>
               Sign In
