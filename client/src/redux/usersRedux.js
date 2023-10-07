@@ -15,6 +15,7 @@ const LOG_OUT = createActionName("LOG_OUT");
 const SET_ERROR = createActionName("SET_ERROR");
 const START_LOADING = createActionName("START_LOADING");
 const END_LOADING = createActionName("END_LOADING");
+const GET_FULL_USER = createActionName("GET_FULL_USER");
 
 // ACTION CREATORS
 export const logIn = (user) => ({ type: LOG_IN, payload: user });
@@ -22,6 +23,7 @@ export const logOut = () => ({ type: LOG_OUT });
 export const setError = (payload) => ({ type: SET_ERROR, payload });
 export const startLoading = () => ({ type: START_LOADING });
 export const endLoading = () => ({ type: END_LOADING });
+export const getFullUser = (user) => ({ type: GET_FULL_USER, payload: user });
 
 // THUNKS
 export const loadLoggedUser = () => {
@@ -32,6 +34,22 @@ export const loadLoggedUser = () => {
         withCredentials: true,
       });
       dispatch(logIn({ login: res.data.email }));
+    } catch (e) {
+      dispatch(setError(e.message));
+    } finally {
+      dispatch(endLoading());
+    }
+  };
+};
+
+export const loadFullUser = () => {
+  return async (dispatch) => {
+    dispatch(startLoading());
+    try {
+      let res = await axios.get(`${API_AUTH_URL}/user`, {
+        withCredentials: true,
+      });
+      dispatch(getFullUser(res.data));
     } catch (e) {
       dispatch(setError(e.message));
     } finally {
@@ -57,6 +75,8 @@ const usersReducer = (statePart = initialState, action) => {
       return { ...statePart, data: action.payload, error: null };
     case LOG_OUT:
       return { ...statePart, data: null, error: null };
+    case GET_FULL_USER:
+      return { ...statePart, data: action.payload, error: null };
     case SET_ERROR:
       return { ...statePart, error: action.payload };
     default:

@@ -203,7 +203,8 @@ const CartTable = ({ items }) => {
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => {
                         setShowConfirmationModal(false);
-                        dispatch(loadCartProductsRequest()); // Refresh data
+                        dispatch(loadCartProductsRequest());
+                        window.location.reload();
                     }}>
                         OK
                     </Button>
