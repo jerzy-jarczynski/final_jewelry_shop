@@ -111,7 +111,10 @@ export class OrdersService {
         },
         date: new Date(),
         priceSum: totalSum,
-        comment: '',
+        comment: cart.comment,  // Add comment from the cart
+        clientName: cart.clientName, // Add clientName from the cart
+        email: cart.email, // Add email from the cart
+        address: cart.address, // Add address from the cart
     };
 
     // Create the new order

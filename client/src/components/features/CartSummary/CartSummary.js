@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Table, Spinner, Form, Button } from "react-bootstrap";
 import { returnImgSrc } from "../../../utils/renderImgSrc";
 import { loadFullUser, getFullUser } from "../../../redux/usersRedux";
+import { API_URL } from "../../../config";
 
 const CartSummary = () => {
   const dispatch = useDispatch();
@@ -12,10 +13,6 @@ const CartSummary = () => {
   const allProducts = useSelector(getProducts);
   const error = useSelector(getCartError);
   const userData = useSelector(getFullUser);
-
-  const defaultClientName = userData ? userData.payload.user.data.name : '';
-  const defaultEmail = userData ? userData.payload.user.data.email : '';
-  const defaultAddress = userData ? userData.payload.user.data.address : '';
   
   const [formData, setFormData] = useState({
     clientName: '',
@@ -43,6 +40,36 @@ const CartSummary = () => {
         });
     }
   }, [userData]);
+
+  console.log(formData);
+
+  const submitOrder = async () => {
+    const orderData = {
+      userId: userData.payload.user.data.id,
+      date: new Date().toISOString(),
+      priceSum: totalSum.toString(),
+      ...formData,
+      cartItems: cartItems.cartItems,
+    };
+
+    try {
+      const response = await fetch(`${API_URL}/orders/proceed-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+      const responseData = await response.json();
+      if(response.ok){
+        console.log('Order created successfully:', responseData);
+      } else {
+        console.error('Failed to create order:', responseData);
+      }
+    } catch (error) {
+      console.error('There was an error sending the order:', error);
+    }
+  };  
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -143,7 +170,7 @@ const CartSummary = () => {
           <Form.Control as="textarea" rows={3} name="comment" value={formData.comment} onChange={handleInputChange} placeholder="Add a comment to your order..." />
         </Form.Group>
       </Form>
-      <Button variant="primary">Send Order</Button>
+      <Button variant="primary" onClick={submitOrder}>Send Order</Button>
     </>
   );
 };
