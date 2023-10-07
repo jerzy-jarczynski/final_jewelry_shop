@@ -9,6 +9,7 @@ import Register from "./components/pages/Register/Register";
 import Cart from "./components/pages/Cart/Cart";
 import Orders from "./components/pages/Orders/Orders";
 import OrderDetails from "./components/pages/OrderDetails/OrderDetails";
+import ProceedOrder from "./components/pages/ProceedOrder/ProceedOrder";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetails />} />
+        <Route path="/proceed-order" element={<ProceedOrder />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>

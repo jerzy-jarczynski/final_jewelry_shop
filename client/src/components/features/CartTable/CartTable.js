@@ -162,13 +162,16 @@ const CartTable = ({ items }) => {
                 </tbody>
             </Table>
             <Table bordered>
+                <thead>
+                    <tr>
+                        <th>Total Amount</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>                
                 <tbody>
                     <tr>
-                        <td colSpan="3">Total</td>
                         <td>{totalAmount}</td>
-                        <td colSpan="3"></td>
                         <td>{totalSum}</td>
-                        <td colSpan="2"></td>
                     </tr>
                 </tbody>
             </Table>
