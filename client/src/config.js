@@ -3,7 +3,7 @@ export const API_URL =
 
 export const API_AUTH_URL =
   process.env.NODE_ENV === "production"
-    ? "api/auth"
+    ? "/api/auth"
     : "http://localhost:8000/api/auth";
 
 export const IMGS_URL =

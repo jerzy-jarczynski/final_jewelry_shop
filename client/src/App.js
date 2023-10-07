@@ -8,6 +8,7 @@ import Logout from "./components/pages/Logout/Logout";
 import Register from "./components/pages/Register/Register";
 import Cart from "./components/pages/Cart/Cart";
 import Orders from "./components/pages/Orders/Orders";
+import OrderDetails from "./components/pages/OrderDetails/OrderDetails";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -18,8 +19,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadProductsRequest());
     dispatch(loadLoggedUser());
+    dispatch(loadProductsRequest());    
   }, [dispatch]);  
 
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/orders/:id" element={<OrderDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>

@@ -33,7 +33,6 @@ export const loadLoggedUser = () => {
       });
       dispatch(logIn({ login: res.data.email }));
     } catch (e) {
-      console.log("error ", e);
       dispatch(setError(e.message));
     } finally {
       dispatch(endLoading());

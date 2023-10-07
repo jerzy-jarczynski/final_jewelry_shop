@@ -7,11 +7,15 @@ const createActionName = name => `app/orders/${name}`;
 export const LOAD_ORDERS = createActionName("LOAD_ORDERS");
 export const DELETE_ORDER = createActionName("DELETE_ORDER");
 export const UPDATE_ORDER = createActionName("UPDATE_ORDER");
+export const LOAD_SINGLE_ORDER = createActionName("LOAD_SINGLE_ORDER");
+export const START_LOADING = createActionName("START_LOADING");
+export const END_LOADING = createActionName("END_LOADING");
 export const ERROR_ORDER = createActionName("ERROR");
 
 export const loadOrders = payload => ({ type: LOAD_ORDERS, payload });
 export const deleteOrder = orderId => ({ type: DELETE_ORDER, payload: orderId });
 export const updateOrder = (orderId, updatedData) => ({ type: UPDATE_ORDER, payload: { orderId, updatedData } });
+export const loadSingleOrder = payload => ({ type: LOAD_SINGLE_ORDER, payload });
 export const setErrorOrder = payload => ({ type: ERROR_ORDER, payload });
 
 // THUNKS
@@ -42,16 +46,40 @@ export const updateOrderRequest = (orderId, updatedData) => async dispatch => {
   }
 };
 
+export const loadOrderByIdRequest = orderId => async dispatch => {
+  dispatch({ type: START_LOADING });
+  try {
+    const res = await axios.get(`${API_URL}/orders/${orderId}`);
+    dispatch(loadSingleOrder(res.data));
+  } catch (e) {
+    dispatch(setErrorOrder(e.message));
+  } finally {
+    dispatch({ type: END_LOADING });
+  }
+};
+
 // SELECTORS
 export const getOrders = ({ orders }) => {
   return orders.data;
 };
+
 export const getOrdersError = ({ orders }) => {
   return orders.error;
 };
 
+export const getOrderById = (state, orderId) => {
+  if (!state.orders || !state.orders.data) return null;
+  return state.orders.data.find(order => order.id === orderId);
+};
+
 // REDUCER
-const ordersReducer = (statePart = [], action) => {
+const initialState = {
+  data: [],
+  loading: false,
+  error: null
+};
+
+const ordersReducer = (statePart = initialState, action) => {
   switch (action.type) {
     case LOAD_ORDERS:
       return { ...statePart, data: action.payload };
@@ -75,6 +103,20 @@ const ordersReducer = (statePart = [], action) => {
         data: updatedOrders
       };
     }
+    case LOAD_SINGLE_ORDER: {
+      const updatedData = statePart.data ? [...statePart.data] : [];
+      const orderIndex = updatedData.findIndex(order => order.id === action.payload.id);
+      if (orderIndex !== -1) {
+        updatedData[orderIndex] = action.payload;
+      } else {
+        updatedData.push(action.payload);
+      }
+      return { ...statePart, data: updatedData };
+    }
+    case START_LOADING:
+      return { ...statePart, loading: true };
+    case END_LOADING:
+      return { ...statePart, loading: false };
     case ERROR_ORDER:
       return { ...statePart, error: action.payload };
     default:
