@@ -21,10 +21,10 @@ export class CreateProductDTO {
 
   @IsNotEmpty()
   @IsString()
-  @Length(1, 10) // Assuming max length for price including decimals
+  @Length(1, 10)
   @IsDecimal({}, { message: 'price must be a valid decimal number' })
-  price: string; // Keep it as string
-
+  price: string;
+  
   @IsNotEmpty()
   @IsString()
   @Length(10, 500)

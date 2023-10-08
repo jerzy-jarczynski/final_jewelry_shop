@@ -53,6 +53,6 @@ export class OrdersController {
   @Post('/proceed-order')
   @UseGuards(JwtAuthGuard)
   createOrderFromCart(@Body() cart: any) {
-      return this.ordersService.createOrderFromCart(cart);
+    return this.ordersService.createOrderFromCart(cart);
   }  
 }

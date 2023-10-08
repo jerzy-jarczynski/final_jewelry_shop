@@ -37,7 +37,7 @@ export class AuthController {
   @Get('/user')
   @UseGuards(JwtAuthGuard)
   getUser(@Req() req): any {
-    return req.user; // This contains the user data set in JwtStrategy's validate method.
+    return req.user;
   }
 
   @UseGuards(JwtAuthGuard)

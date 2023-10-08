@@ -20,7 +20,7 @@ export class ProductsService {
   public create(productData: CreateProductDTO): Promise<Product> {
     const transformedProduct = {
       ...productData,
-      price: productData.price.toString(), // Convert number to string if needed
+      price: productData.price.toString(),
     };
     return this.prismaService.product.create({
       data: transformedProduct,

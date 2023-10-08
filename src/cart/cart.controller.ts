@@ -30,9 +30,9 @@ export class CartController {
   @Put('/:cartItemId')
   @UseGuards(JwtAuthGuard)
   async updateCartItem(
-      @Param('cartItemId') cartItemId: string,
-      @Body() updateData: CreateCartItemDto
+    @Param('cartItemId') cartItemId: string,
+    @Body() updateData: CreateCartItemDto
   ) {
-      return this.cartService.updateCartItem(cartItemId, updateData);
+    return this.cartService.updateCartItem(cartItemId, updateData);
   }  
 }

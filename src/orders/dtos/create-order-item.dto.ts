@@ -1,4 +1,3 @@
-// dtos/create-order-item.dto.ts
 import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateOrderItemDTO {
