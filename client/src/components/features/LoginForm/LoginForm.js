@@ -53,8 +53,8 @@ const LoginForm = () => {
   if (user) {
     return (
       <Alert variant="info">
-        <Alert.Heading>Already Logged In</Alert.Heading>
-        <p>You are already logged in. Please log out to access the login form.</p>
+        <Alert.Heading>You are logged in</Alert.Heading>
+        <p>Please sign out first to switch to another account</p>
       </Alert>
     );
   }  
@@ -94,12 +94,12 @@ const LoginForm = () => {
       )}
 
       <Form.Group className="mb-3" controlId="formLogin">
-        <Form.Label>Login</Form.Label>
+        <Form.Label>E-mail</Form.Label>
         <Form.Control
           type="text"
           value={login}
           onChange={(e) => setLogin(e.target.value)}
-          placeholder="Enter login"
+          placeholder="Enter email"
         />
       </Form.Group>
 

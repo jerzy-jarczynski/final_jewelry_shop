@@ -109,16 +109,16 @@ const RegisterForm = () => {
       {
         status === "clientError" && (
           <Alert variant="danger">
-            <Alert.Heading>Not enought data</Alert.Heading>
-            <p>You have to fill all the fields</p>
+            <Alert.Heading>Bad data</Alert.Heading>
+            <p>One or more of fields have too short or too long data</p>
           </Alert>
       )}      
 
       {
         status === "loginError" && (
           <Alert variant="warning">
-            <Alert.Heading>Login already in use</Alert.Heading>
-            <p>You have to use other login.</p>
+            <Alert.Heading>Email already in use</Alert.Heading>
+            <p>You have to use other email.</p>
           </Alert>
       )}
 
