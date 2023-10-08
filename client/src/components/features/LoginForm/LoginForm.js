@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import { API_AUTH_URL } from "../../../config";
-import { useDispatch } from "react-redux";
-import { logIn } from "../../../redux/usersRedux";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn, getUser } from "../../../redux/usersRedux";
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector(getUser);
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -32,7 +36,10 @@ const LoginForm = () => {
       })
       .then(data => {
         setStatus('success');
-        dispatch(logIn(data)); 
+        dispatch(logIn(data));
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       })
       .catch(error => {
         if (error.message === "Bad Request") {
@@ -42,6 +49,15 @@ const LoginForm = () => {
         }
       });
   };
+
+  if (user) {
+    return (
+      <Alert variant="info">
+        <Alert.Heading>Already Logged In</Alert.Heading>
+        <p>You are already logged in. Please log out to access the login form.</p>
+      </Alert>
+    );
+  }  
 
   return (
     <Form onSubmit={handleSubmit}>

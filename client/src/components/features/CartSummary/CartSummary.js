@@ -2,18 +2,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadCartProductsRequest, getCartProducts, getCartError } from "../../../redux/cartRedux";
 import { getProducts } from '../../../redux/productsRedux';
 import { useEffect, useState } from "react";
-import { Table, Spinner, Form, Button } from "react-bootstrap";
+import { Table, Spinner, Form, Button, Modal } from "react-bootstrap";
 import { returnImgSrc } from "../../../utils/renderImgSrc";
 import { loadFullUser, getFullUser } from "../../../redux/usersRedux";
 import { API_URL } from "../../../config";
+import { useNavigate } from 'react-router-dom';
 
 const CartSummary = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector(getCartProducts);
   const allProducts = useSelector(getProducts);
   const error = useSelector(getCartError);
   const userData = useSelector(getFullUser);
-  
+
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
   const [formData, setFormData] = useState({
     clientName: '',
     email: '',
@@ -41,8 +47,6 @@ const CartSummary = () => {
     }
   }, [userData]);
 
-  console.log(formData);
-
   const submitOrder = async () => {
     const orderData = {
       userId: userData.payload.user.data.id,
@@ -63,6 +67,9 @@ const CartSummary = () => {
       const responseData = await response.json();
       if(response.ok){
         console.log('Order created successfully:', responseData);
+        setTimeout(() => {
+          navigate("/orders");
+        }, 2000);
       } else {
         console.error('Failed to create order:', responseData);
       }
@@ -170,7 +177,30 @@ const CartSummary = () => {
           <Form.Control as="textarea" rows={3} name="comment" value={formData.comment} onChange={handleInputChange} placeholder="Add a comment to your order..." />
         </Form.Group>
       </Form>
-      <Button variant="primary" onClick={submitOrder}>Send Order</Button>
+      <Button variant="primary" onClick={handleShow}>Send Order</Button>
+
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Order</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to send the Order?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => {
+            handleClose();
+            navigate("/cart");
+          }}>
+            Back to Cart
+          </Button>
+          <Button variant="primary" onClick={() => {
+            handleClose();
+            submitOrder();
+          }}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>      
     </>
   );
 };

@@ -10,6 +10,7 @@ import Amount from "../../common/Amount/Amount";
 import Picker from "../../common/Picker/Picker";
 import { getUser } from "../../../redux/usersRedux";
 import { useNavigate } from 'react-router-dom';
+import { returnImgSrc } from "../../../utils/renderImgSrc";
 
 const ProductOverview = () => {
   const dispatch = useDispatch();
@@ -90,8 +91,6 @@ const ProductOverview = () => {
     );
   }
 
-  const productImageSrc = `${IMGS_URL}${data.photo}.png`;
-
   return (
     <>
       <Row>
@@ -103,24 +102,24 @@ const ProductOverview = () => {
             <Row>
               <Col>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ productImageSrc } />
+                  <Card.Img src={ returnImgSrc(data.photo) } />
                 </div>
               </Col>
             </Row>
             <Row>
             <Col>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ productImageSrc } />
+                  <Card.Img src={ returnImgSrc('add-photo-1') } />
                 </div>
               </Col>
               <Col>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ productImageSrc } />
+                  <Card.Img src={ returnImgSrc('add-photo-2') } />
                 </div>
               </Col>
               <Col>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ productImageSrc } />
+                  <Card.Img src={ returnImgSrc('add-photo-3') } />
                 </div>
               </Col>
             </Row>

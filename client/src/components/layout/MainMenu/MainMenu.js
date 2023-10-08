@@ -15,7 +15,7 @@ const MainMenu = () => {
       <Navbar.Collapse className="justify-content-end">
         <Nav>
           {user && (
-            <div className="text-white my-auto mx-3">Logged as {user.login}</div>
+            <div className="text-white my-auto mx-3">Logged as {user.login || user.email}</div>
           )}
           <Button as={Link} to={user ? "/cart" : "/login"} variant="warning" className="text-white">
             Cart

@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import { API_AUTH_URL } from "../../../config";
+import { getUser } from "../../../redux/usersRedux";
+import { useSelector } from "react-redux";
 
 const RegisterForm = () => {
+  const user = useSelector(getUser);
+
+  console.log(user);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -71,6 +77,15 @@ const RegisterForm = () => {
       [name]: value
     }));
   };
+
+  if (user) {
+    return (
+      <Alert variant="info">
+        <Alert.Heading>Already Logged In</Alert.Heading>
+        <p>You need to log out to create a new account.</p>
+      </Alert>
+    );
+  }  
 
   return (
     <Form onSubmit={handleSubmit}>
