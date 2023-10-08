@@ -2,16 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartProducts, loadCartProductsRequest } from "../../../redux/cartRedux";
 import { useEffect, useState } from "react";
 import { Spinner, Button, Modal } from "react-bootstrap";
-import CartTable from "../CartTable/CartTable";
 import { useNavigate } from "react-router-dom";
+import CartTable from "../CartTable/CartTable";
 
 const CartContent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [cartProducts, setCartProducts] = useState(null);
   const reduxCartProducts = useSelector(getCartProducts);
-
   const [showModal, setShowModal] = useState(false);
+
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
@@ -54,13 +55,13 @@ const CartContent = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => {
             handleClose();
-            navigate('/');
+            navigate("/");
           }}>
             Go Back to Shop
           </Button>
           <Button variant="primary" onClick={() => {
             handleClose();
-            navigate('/proceed-order');
+            navigate("/proceed-order");
             window.location.reload();
           }}>
             Confirm

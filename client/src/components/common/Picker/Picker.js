@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Form } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 const Picker = ({ title, items = [], onValueChange, defaultValue }) => {
-  const [selectedItem, setSelectedItem] = useState(defaultValue || (items.length > 0 ? items[0] : ''));
+  const [selectedItem, setSelectedItem] = useState(defaultValue || (items.length > 0 ? items[0] : ""));
 
   useEffect(() => {
     if (items.length > 0) {
@@ -38,6 +39,13 @@ const Picker = ({ title, items = [], onValueChange, defaultValue }) => {
       </Form>
     </Container>
   );
+};
+
+Picker.propTypes = {
+  title: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.string),
+  onValueChange: PropTypes.func.isRequired,
+  defaultValue: PropTypes.string
 };
 
 export default Picker;

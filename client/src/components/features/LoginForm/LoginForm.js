@@ -3,7 +3,7 @@ import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import { API_AUTH_URL } from "../../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn, getUser } from "../../../redux/usersRedux";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -19,14 +19,14 @@ const LoginForm = () => {
     e.preventDefault();
 
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ email: login, password }),
     };
 
-    setStatus('loading');
+    setStatus("loading");
     fetch(`${API_AUTH_URL}/login`, options)
       .then(res => {
         if (!res.ok) {
@@ -35,17 +35,17 @@ const LoginForm = () => {
         return res.json();
       })
       .then(data => {
-        setStatus('success');
+        setStatus("success");
         dispatch(logIn(data));
         setTimeout(() => {
-          navigate('/');
+          navigate("/");
         }, 2000);
       })
       .catch(error => {
         if (error.message === "Bad Request") {
-          setStatus('clientError');
+          setStatus("clientError");
         } else {
-          setStatus('serverError');
+          setStatus("serverError");
         }
       });
   };

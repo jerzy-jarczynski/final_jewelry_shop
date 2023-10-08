@@ -7,8 +7,6 @@ import { useSelector } from "react-redux";
 const RegisterForm = () => {
   const user = useSelector(getUser);
 
-  console.log(user);
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -42,14 +40,14 @@ const RegisterForm = () => {
       };
 
       const options = {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       };
 
-      setStatus('loading');
+      setStatus("loading");
 
       fetch(`${API_AUTH_URL}/register`, options)
       .then(res => {
@@ -58,13 +56,13 @@ const RegisterForm = () => {
       })  
       .then(data => {
           if (data.status === 201) {
-              setStatus('success');
+              setStatus("success");
           } else if (data.status === 400) {
-              setStatus('clientError');
+              setStatus("clientError");
           } else if (data.status === 409) {
-              setStatus('loginError');
+              setStatus("loginError");
           } else {
-              setStatus('serverError');
+              setStatus("serverError");
           }
       });
     }

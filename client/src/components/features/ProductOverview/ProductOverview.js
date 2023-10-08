@@ -4,20 +4,20 @@ import { getProductById, loadProductsRequest } from "../../../redux/productsRedu
 import { useEffect, useState } from "react";
 import { Row, Col, Button, Card, Spinner, Alert, Form, Modal } from "react-bootstrap";
 import styles from "./ProductOverview.module.scss";
-import { IMGS_URL } from "../../../config";
 import { API_URL } from "../../../config";
 import Amount from "../../common/Amount/Amount";
 import Picker from "../../common/Picker/Picker";
 import { getUser } from "../../../redux/usersRedux";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { returnImgSrc } from "../../../utils/renderImgSrc";
 
 const ProductOverview = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const data = useSelector((state) => getProductById(state, id));
   const user = useSelector(getUser);
-  const navigate = useNavigate();
 
   const [productAmount, setProductAmount] = useState(1);
   const [color, setColor] = useState("gold");
@@ -56,14 +56,12 @@ const ProductOverview = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(cartData),
-        credentials: 'include',
+        credentials: "include",
       });
   
       if (!response.ok) {
         throw new Error("Failed to add item to cart.");
       }
-  
-      const responseData = await response.json();
   
       setValidationError(null);
       setShowModal(true);
@@ -107,19 +105,19 @@ const ProductOverview = () => {
               </Col>
             </Row>
             <Row>
-            <Col>
+              <Col>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ returnImgSrc('add-photo-1') } />
+                  <Card.Img src={ returnImgSrc("add-photo-1") } />
                 </div>
               </Col>
               <Col>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ returnImgSrc('add-photo-2') } />
+                  <Card.Img src={ returnImgSrc("add-photo-2") } />
                 </div>
               </Col>
               <Col>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ returnImgSrc('add-photo-3') } />
+                  <Card.Img src={ returnImgSrc("add-photo-3") } />
                 </div>
               </Col>
             </Row>
@@ -157,10 +155,10 @@ const ProductOverview = () => {
       </Row>
       <Row>
         <Col>
-          <Picker title="Color picker" items={['gold', 'silver', 'bronze']} onValueChange={setColor} defaultValue="gold" />
+          <Picker title="Color picker" items={["gold", "silver", "bronze"]} onValueChange={setColor} defaultValue="gold" />
         </Col>
         <Col>
-          <Picker title="Size picker" items={['S', 'M', 'L']} onValueChange={setSize} defaultValue="S" />
+          <Picker title="Size picker" items={["S", "M", "L"]} onValueChange={setSize} defaultValue="S" />
         </Col>
       </Row>
       <Row>
@@ -173,18 +171,18 @@ const ProductOverview = () => {
 
       <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>
-            <Modal.Title>Success</Modal.Title>
+          <Modal.Title>Success</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Product successfully added to cart.
+          Product successfully added to cart.
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-                Stay on page
-            </Button>
-            <Button variant="primary" onClick={goToCart}>
-                Go to cart
-            </Button>
+          <Button variant="secondary" onClick={closeModal}>
+            Stay on page
+          </Button>
+          <Button variant="primary" onClick={goToCart}>
+            Go to cart
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

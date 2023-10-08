@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getUser, isUserLoading } from "../../../redux/usersRedux";
 import { useEffect } from "react";
 import OrdersContent from "../../features/OrdersContent/OrdersContent";
-import { Spinner } from 'react-bootstrap';
+import { Spinner } from "react-bootstrap";
 
 const Orders = () => {
   const user = useSelector(getUser);

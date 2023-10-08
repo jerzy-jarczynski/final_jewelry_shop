@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getUser, isUserLoading } from "../../../redux/usersRedux";
 import { useEffect } from "react";
 import CartContent from "../../features/CartContent/CartContent";
-import { Spinner } from 'react-bootstrap';
+import { Spinner } from "react-bootstrap";
 
 const Cart = () => {
   const user = useSelector(getUser);

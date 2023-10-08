@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { Button, Card } from 'react-bootstrap';
+import PropTypes from "prop-types";
+import { Button, Card } from "react-bootstrap";
 import { IMGS_URL } from "../../../config";
 import { Link } from "react-router-dom";
 import styles from "./ProductSummary.module.scss";

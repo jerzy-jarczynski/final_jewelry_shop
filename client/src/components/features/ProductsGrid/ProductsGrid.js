@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Spinner, Row, Col } from "react-bootstrap";
-import ProductSummary from '../ProductSummary/ProductSummary';
+import ProductSummary from "../ProductSummary/ProductSummary";
 
 const ProductsGrid = ({ products }) => {
 

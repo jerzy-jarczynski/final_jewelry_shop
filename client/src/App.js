@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loadLoggedUser } from "./redux/usersRedux";
+import { loadProductsRequest } from "./redux/productsRedux";
 import { Routes, Route } from "react-router-dom";
+
 import MainLayout from "./components/layout/MainLayout/MainLayout";
 import Home from "./components/pages/Home/Home";
 import NotFound from "./components/pages/NotFound/NotFound";
@@ -10,11 +15,6 @@ import Cart from "./components/pages/Cart/Cart";
 import Orders from "./components/pages/Orders/Orders";
 import OrderDetails from "./components/pages/OrderDetails/OrderDetails";
 import ProceedOrder from "./components/pages/ProceedOrder/ProceedOrder";
-
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { loadLoggedUser } from "./redux/usersRedux";
-import { loadProductsRequest } from "./redux/productsRedux";
 
 const App = () => {
   const dispatch = useDispatch();

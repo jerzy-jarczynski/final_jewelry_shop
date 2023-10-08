@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { loadCartProductsRequest, getCartProducts, getCartError } from "../../../redux/cartRedux";
-import { getProducts } from '../../../redux/productsRedux';
+import { getProducts } from "../../../redux/productsRedux";
 import { useEffect, useState } from "react";
 import { Table, Spinner, Form, Button, Modal } from "react-bootstrap";
 import { returnImgSrc } from "../../../utils/renderImgSrc";
 import { loadFullUser, getFullUser } from "../../../redux/usersRedux";
 import { API_URL } from "../../../config";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const CartSummary = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const cartItems = useSelector(getCartProducts);
   const allProducts = useSelector(getProducts);
   const error = useSelector(getCartError);
@@ -21,10 +22,10 @@ const CartSummary = () => {
   const handleShow = () => setShowModal(true);
 
   const [formData, setFormData] = useState({
-    clientName: '',
-    email: '',
-    address: '',
-    comment: '',
+    clientName: "",
+    email: "",
+    address: "",
+    comment: "",
   });
 
   const handleInputChange = (e) => {
@@ -39,11 +40,11 @@ const CartSummary = () => {
 
   useEffect(() => {
     if (userData && userData.payload && userData.payload.user && userData.payload.user.data) {
-        setFormData({
-            clientName: userData.payload.user.data.name || '',
-            email: userData.payload.user.data.email || '',
-            address: userData.payload.user.data.address || ''
-        });
+      setFormData({
+        clientName: userData.payload.user.data.name || "",
+        email: userData.payload.user.data.email || "",
+        address: userData.payload.user.data.address || ""
+      });
     }
   }, [userData]);
 
@@ -58,23 +59,23 @@ const CartSummary = () => {
 
     try {
       const response = await fetch(`${API_URL}/orders/proceed-order`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(orderData),
       });
       const responseData = await response.json();
       if(response.ok){
-        console.log('Order created successfully:', responseData);
+        console.log("Order created successfully:", responseData);
         setTimeout(() => {
           navigate("/orders");
         }, 2000);
       } else {
-        console.error('Failed to create order:', responseData);
+        console.error("Failed to create order:", responseData);
       }
     } catch (error) {
-      console.error('There was an error sending the order:', error);
+      console.error("There was an error sending the order:", error);
     }
   };  
 
@@ -127,7 +128,7 @@ const CartSummary = () => {
                   <img 
                     src={returnImgSrc(productDetails.photo)} 
                     alt="Product" 
-                    style={{ width: '100%', height: '100%', display: 'block', maxWidth: '150px' }} 
+                    style={{ width: "100%", height: "100%", display: "block", maxWidth: "150px" }} 
                   />
                 </td>
                 <td>{productDetails.title}</td>
@@ -142,6 +143,7 @@ const CartSummary = () => {
           })}
         </tbody>
       </Table>
+
       <Table bordered>
         <thead>
           <tr>
@@ -156,20 +158,21 @@ const CartSummary = () => {
           </tr>
         </tbody>
       </Table>
+
       <Form>
         <Form.Group className="mb-3">
-            <Form.Label>Client Name</Form.Label>
-            <Form.Control type="text" name="clientName" value={formData.clientName} onChange={handleInputChange} placeholder="Enter client name" />
+          <Form.Label>Client Name</Form.Label>
+          <Form.Control type="text" name="clientName" value={formData.clientName} onChange={handleInputChange} placeholder="Enter client name" />
         </Form.Group>
 
         <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter email" />
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter email" />
         </Form.Group>
 
         <Form.Group className="mb-3">
-            <Form.Label>Address</Form.Label>
-            <Form.Control type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Enter address" />
+          <Form.Label>Address</Form.Label>
+          <Form.Control type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Enter address" />
         </Form.Group>
 
         <Form.Group className="mb-3">
@@ -177,6 +180,7 @@ const CartSummary = () => {
           <Form.Control as="textarea" rows={3} name="comment" value={formData.comment} onChange={handleInputChange} placeholder="Add a comment to your order..." />
         </Form.Group>
       </Form>
+      
       <Button variant="primary" onClick={handleShow}>Send Order</Button>
 
       <Modal show={showModal} onHide={handleClose}>

@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { getUser, isUserLoading } from "../../../redux/usersRedux";
 import { useEffect } from "react";
 import OrderOverview from "../../features/OrderOverview/OrderOverview";
-import { Spinner } from 'react-bootstrap';
+import { Spinner } from "react-bootstrap";
 
 const OrderDetails = () => {
+  const navigate = useNavigate();
+
   const user = useSelector(getUser);
   const loading = useSelector(isUserLoading);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!loading && !user) {
