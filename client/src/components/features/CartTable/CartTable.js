@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { getProducts } from "../../../redux/productsRedux";
 import { returnImgSrc } from "../../../utils/renderImgSrc";
 import { deleteCartItemRequest, loadCartProductsRequest, updateCartItemRequest } from "../../../redux/cartRedux";
 import PropTypes from "prop-types";
+import styles from "./CartTable.module.scss";
 
 const CartTable = ({ items }) => {
   const dispatch = useDispatch();
@@ -85,99 +86,105 @@ const CartTable = ({ items }) => {
   }, 0);    
 
   return (
-    <>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Product Photo</th>
-            <th>Product Title</th>
-            <th>Amount</th>
-            <th>Size</th>
-            <th>Color</th>
-            <th>Price</th>
-            <th>Total Price</th>
-            <th>Comment</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item, index) => {
-            const productDetails = allProducts.find(product => product.id === item.productId);
-            const currentEditableItem = editedItems[item.id] || {};
-            const totalPrice = productDetails.price * currentEditableItem.amount;
+    <div className={styles.CartTable}>
+      <div className={styles.tableContainer}>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product Photo</th>
+              <th>Product Title</th>
+              <th>Amount</th>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Price</th>
+              <th>Total Price</th>
+              <th>Comment</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, index) => {
+              const productDetails = allProducts.find(product => product.id === item.productId);
+              const currentEditableItem = editedItems[item.id] || {};
+              const totalPrice = productDetails.price * currentEditableItem.amount;
 
-            return (
-              <tr key={item.id}>
-                <td>{index + 1}</td>
-                <td>
-                  <img 
-                    src={returnImgSrc(productDetails.photo)} 
-                    alt="Product" 
-                    style={{ width: "100%", height: "100%", display: "block", maxWidth: "150px" }} 
-                  />
-                </td>
-                <td>{productDetails.title}</td>
-                <td>
-                  <Form.Control
-                    type="number"
-                    value={currentEditableItem.amount}
-                    onChange={(e) => handleEditChange(item.id, "amount", e.target.value)}
-                  />
-                </td>
-                <td>
-                  <Form.Select
-                    value={currentEditableItem.size}
-                    onChange={(e) => handleEditChange(item.id, "size", e.target.value)}
-                  >
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                  </Form.Select>
-                </td>
-                <td>
-                  <Form.Select
-                    value={currentEditableItem.color}
-                    onChange={(e) => handleEditChange(item.id, "color", e.target.value)}
-                  >
-                    <option value="gold">Gold</option>
-                    <option value="silver">Silver</option>
-                    <option value="bronze">Bronze</option>
-                  </Form.Select>
-                </td>
-                <td>{productDetails.price}</td>
-                <td>{totalPrice}</td>
-                <td>
-                  <Form.Control
-                    as="textarea"
-                    value={currentEditableItem.comment}
-                    onChange={(e) => handleEditChange(item.id, "comment", e.target.value)}
-                  />
-                </td>
-                <td>
-                  <Button variant="danger" onClick={() => handleDelete(item)}>Delete</Button>
-                  <Button variant="success" onClick={() => saveChanges(item.id)}>Save</Button>
-                </td>
+              return (
+                <tr key={item.id}>
+                  <td>{index + 1}</td>
+                  <td className={styles.squareImageContainer}>
+                    <img 
+                      src={returnImgSrc(productDetails.photo)} 
+                      alt="Product" 
+                      style={{ width: "100%", height: "100%", display: "block", maxWidth: "150px" }} 
+                    />
+                  </td>
+                  <td>{productDetails.title}</td>
+                  <td>
+                    <Form.Control
+                      type="number"
+                      value={currentEditableItem.amount}
+                      onChange={(e) => handleEditChange(item.id, "amount", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <Form.Select
+                      value={currentEditableItem.size}
+                      onChange={(e) => handleEditChange(item.id, "size", e.target.value)}
+                    >
+                      <option value="S">S</option>
+                      <option value="M">M</option>
+                      <option value="L">L</option>
+                    </Form.Select>
+                  </td>
+                  <td>
+                    <Form.Select
+                      value={currentEditableItem.color}
+                      onChange={(e) => handleEditChange(item.id, "color", e.target.value)}
+                    >
+                      <option value="gold">Gold</option>
+                      <option value="silver">Silver</option>
+                      <option value="bronze">Bronze</option>
+                    </Form.Select>
+                  </td>
+                  <td>{productDetails.price}</td>
+                  <td>{totalPrice}</td>
+                  <td>
+                    <Form.Control
+                      as="textarea"
+                      value={currentEditableItem.comment}
+                      onChange={(e) => handleEditChange(item.id, "comment", e.target.value)}
+                    />
+                  </td>
+                  <td>
+                    <Button variant="danger" onClick={() => handleDelete(item)}>Delete</Button>
+                    <Button variant="success" onClick={() => saveChanges(item.id)}>Save</Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </div>
+
+      <Row>
+        <Col xs={12} md={10} lg={8} xl={6} className="mx-auto">      
+          <Table bordered>
+            <thead>
+              <tr>
+                <th>Total Amount</th>
+                <th>Total Price</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-      
-      <Table bordered>
-        <thead>
-          <tr>
-            <th>Total Amount</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>                
-        <tbody>
-          <tr>
-            <td>{totalAmount}</td>
-            <td>{totalSum}</td>
-          </tr>
-        </tbody>
-      </Table>
+            </thead>                
+            <tbody>
+              <tr>
+                <td>{totalAmount}</td>
+                <td>{totalSum}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -213,7 +220,7 @@ const CartTable = ({ items }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 

@@ -30,7 +30,7 @@ const Cart = () => {
 
   return (
     <>
-      <h2>Cart</h2>
+      <h2 className="mb-3 text-center">Cart</h2>
       <CartContent />
     </>
   );

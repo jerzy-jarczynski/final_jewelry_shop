@@ -32,7 +32,7 @@ const OrdersContent = () => {
   return (
     <>
       {orders.length === 0 ? (
-        <p>You have no orders</p>
+        <p className="text-center">You have no orders</p>
       ) : (
         <OrdersTable items={orders} />
       )}

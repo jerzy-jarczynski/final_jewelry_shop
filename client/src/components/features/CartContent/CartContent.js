@@ -37,11 +37,11 @@ const CartContent = () => {
   return (
     <>
       {cartProducts.cartItems.length === 0 ? (
-        <p>You have no items in the cart</p>
+        <p className="text-center">You have no items in the cart</p>
       ) : (
         <>
           <CartTable items={cartProducts.cartItems} />
-          <Button variant="primary" className="mt-2" onClick={handleShow}>Proceed Order</Button>
+          <Button onClick={handleShow} variant="warning" className="text-white mx-auto d-block my-3 p-3">Proceed Order</Button>
         </>
       )}
 

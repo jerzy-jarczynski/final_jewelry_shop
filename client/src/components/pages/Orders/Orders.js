@@ -30,7 +30,7 @@ const Orders = () => {
 
   return (
     <>
-      <h2>Orders</h2>
+      <h2 className="mb-3 text-center">Orders</h2>
       <OrdersContent />
     </>
   );
