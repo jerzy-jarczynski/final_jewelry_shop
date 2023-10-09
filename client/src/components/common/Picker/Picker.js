@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Card } from "react-bootstrap";
 import PropTypes from "prop-types";
+import styles from "./Picker.module.scss";
 
 const Picker = ({ title, items = [], onValueChange, defaultValue }) => {
   const [selectedItem, setSelectedItem] = useState(defaultValue || (items.length > 0 ? items[0] : ""));
@@ -18,15 +19,14 @@ const Picker = ({ title, items = [], onValueChange, defaultValue }) => {
   };
 
   return (
-    <Container className="mt-3">
-      {title && <h4>{title}</h4>}
+    <Card className="p-3 my-3">
+      {title && <h4 className="pb-3">{title}</h4>}
       <Form>
         <Row>
           {items.map((item, index) => (
-            <Col key={index} className="text-center">
+            <Col key={index} className={styles.pickContainer}>
               <Form.Label>{item}</Form.Label>
               <Form.Check 
-                inline
                 type="radio"
                 name={`${title}-group`}
                 value={item}
@@ -37,7 +37,7 @@ const Picker = ({ title, items = [], onValueChange, defaultValue }) => {
           ))}
         </Row>
       </Form>
-    </Container>
+    </Card>
   );
 };
 

@@ -21,8 +21,6 @@ const RegisterForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Form data on submit:", formData);
-
     const newErrors = {};
 
     if (!formData.email) newErrors.email = "Email is required";

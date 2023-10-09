@@ -90,10 +90,10 @@ const ProductOverview = () => {
   }
 
   return (
-    <>
+    <div className={styles.productOverview}>
       <Row>
-        <Col>
-          <h2>
+        <Col xs={12} md={8} lg={6}>
+          <h2 className="pb-3">
             { data.title }
           </h2>
           <Card>
@@ -104,7 +104,7 @@ const ProductOverview = () => {
                 </div>
               </Col>
             </Row>
-            <Row>
+            <Row className="py-3">
               <Col>
                 <div className={ styles.imageContainer }>
                   <Card.Img src={ returnImgSrc("add-photo-1") } />
@@ -123,49 +123,50 @@ const ProductOverview = () => {
             </Row>
           </Card>
         </Col>
-        <Col>
-          <Row className={ styles.flexRow }>
-            <h2>
+        <Col xs={12} md={4} lg={6} className={styles.descriptionCol}>
+          <Row>
+            <h2 className="py-3 pt-md-0">
               $ { data.price }
             </h2>
-            <Card>
-              <Row>
-                <Col>
-                  <Card.Body>
-                    <Card.Text>Description:<br/>{data.description}</Card.Text>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
+          </Row>        
+          <Row>
+            <Col>
+              <Card>
+                <Card.Body>
+                  <Card.Text>Description:<br/>{data.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
           </Row>
         </Col>
       </Row>
-      <Row>
-        <Col>
+      <Row className="justify-content-center py-3">
+        <Col xs={12} md={6}>
           <Amount title="Product amount" onAmountChange={setProductAmount} defaultValue={1} />
         </Col>
-        <Col>
+        <Col xs={12} md={6} className="mt-3 mt-md-0">
           {user && (
             <Form.Group className="mb-3" controlId="productComment">
-              <Form.Label>Comment</Form.Label>
+              <Form.Label className="w-100 d-block">
+                <h4>Comment</h4>
+              </Form.Label>
               <Form.Control as="textarea" rows={3} onChange={(e) => setComment(e.target.value)} />
             </Form.Group>
           )}
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={12} md={6}>
           <Picker title="Color picker" items={["gold", "silver", "bronze"]} onValueChange={setColor} defaultValue="gold" />
         </Col>
-        <Col>
+        <Col xs={12} md={6}>
           <Picker title="Size picker" items={["S", "M", "L"]} onValueChange={setSize} defaultValue="S" />
         </Col>
       </Row>
-      <Row>
-        <Col></Col>
+      <Row className="justify-content-center">
         <Col>
           {validationError && <Alert variant="danger">{validationError}</Alert>}
-          <Button onClick={handleAddToCart} variant="warning" className="text-white">Add to cart</Button>
+          <Button onClick={handleAddToCart} variant="warning" className="text-white mx-auto d-block my-3 p-3">Add to cart</Button>
         </Col>
       </Row>
 
@@ -185,7 +186,7 @@ const ProductOverview = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 
 

@@ -1,0 +1,32 @@
+.amountContainer > * {
+  display: block;
+  width: 100%!important;
+  padding: 0!important;
+  margin: 0!important;
+  text-align: center;
+}
+
+.amountContainer {
+  display: flex;
+}
+
+.amountContainer > button {
+  max-width: 50px;
+}
+
+.amountContainer > input {
+  margin: 0 15px!important;
+}
+
+.Amount {
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .amountContainer {
+    padding-top: 20px;
+  }
+}

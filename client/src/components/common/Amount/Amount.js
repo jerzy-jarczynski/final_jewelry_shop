@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, FormControl } from "react-bootstrap";
+import { Button, FormControl, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
+import styles from "./Amount.module.scss";
 
 const Amount = ({ title, onAmountChange }) => {
   const [amount, setAmount] = useState(1);
@@ -24,17 +25,21 @@ const Amount = ({ title, onAmountChange }) => {
   };
 
   return (
-    <div>
-      <h4>{title}</h4>
-      <Button variant="secondary" onClick={handleDecrease} disabled={amount <= 1}>-</Button>
-      <FormControl 
-        type="number" 
-        value={amount} 
-        readOnly 
-        className="mx-2 d-inline-block" 
-        style={{ width: "60px", textAlign: "center" }}
-      />
-      <Button variant="secondary" onClick={handleIncrease} disabled={amount >= 10}>+</Button>
+    <div className={styles.Amount}>
+      <Row>
+        <Col xs={12} className="pb-3">
+          <h4>{title}</h4>
+        </Col>
+        <Col xs={12} className={styles.amountContainer}>
+          <Button variant="secondary" onClick={handleDecrease} disabled={amount <= 1}>-</Button>
+          <FormControl 
+            type="number" 
+            value={amount} 
+            readOnly
+          />
+          <Button variant="secondary" onClick={handleIncrease} disabled={amount >= 10}>+</Button>
+        </Col>
+      </Row>
     </div>
   );
 };
