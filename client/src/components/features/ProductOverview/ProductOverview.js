@@ -10,6 +10,8 @@ import Picker from "../../common/Picker/Picker";
 import { getUser } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";
 import { returnImgSrc } from "../../../utils/renderImgSrc";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
 
 const ProductOverview = () => {
   const dispatch = useDispatch();
@@ -26,9 +28,17 @@ const ProductOverview = () => {
   const [showModal, setShowModal] = useState(false);
   const [validationError, setValidationError] = useState(null); 
 
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
+
   useEffect(() => {
     dispatch(loadProductsRequest());
   }, [dispatch, id]);
+  
+  const openLightbox = (index) => {
+    setPhotoIndex(index);
+    setLightboxOpen(true);
+  };
 
   const handleAddToCart = async () => {
     if (!user) {
@@ -89,6 +99,13 @@ const ProductOverview = () => {
     );
   }
 
+  const images = [
+    returnImgSrc(data.photo),
+    returnImgSrc("add-photo-1"),
+    returnImgSrc("add-photo-2"),
+    returnImgSrc("add-photo-3")
+  ];  
+
   return (
     <div className={styles.productOverview}>
       <Row>
@@ -98,26 +115,26 @@ const ProductOverview = () => {
           </h2>
           <Card>
             <Row>
-              <Col>
+              <Col onClick={() => openLightbox(0)}>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ returnImgSrc(data.photo) } />
+                  <Card.Img src={images[0]} />
                 </div>
               </Col>
             </Row>
             <Row className="py-3">
-              <Col>
+              <Col onClick={() => openLightbox(1)}>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ returnImgSrc("add-photo-1") } />
+                  <Card.Img src={images[1]} />
                 </div>
               </Col>
-              <Col>
+              <Col onClick={() => openLightbox(1)}>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ returnImgSrc("add-photo-2") } />
+                  <Card.Img src={images[2]} />
                 </div>
               </Col>
-              <Col>
+              <Col onClick={() => openLightbox(1)}>
                 <div className={ styles.imageContainer }>
-                  <Card.Img src={ returnImgSrc("add-photo-3") } />
+                  <Card.Img src={images[3]} />
                 </div>
               </Col>
             </Row>
@@ -186,6 +203,18 @@ const ProductOverview = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Lightbox */}
+      {lightboxOpen && (
+        <Lightbox
+          mainSrc={images[photoIndex]}
+          nextSrc={images[(photoIndex + 1) % images.length]}
+          prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+          onCloseRequest={() => setLightboxOpen(false)}
+          onMovePrevRequest={() => setPhotoIndex((photoIndex + images.length - 1) % images.length)}
+          onMoveNextRequest={() => setPhotoIndex((photoIndex + 1) % images.length)}
+        />
+      )}      
     </div>
   );
 
