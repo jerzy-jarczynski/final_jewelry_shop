@@ -31,7 +31,7 @@ const ProceedOrder = () => {
 
   return (
     <>
-      <h2>Cart Summary</h2>
+      <h2 className="pb-3 text-center">Cart Summary</h2>
       <CartSummary />
     </>
   );

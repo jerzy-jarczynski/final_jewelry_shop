@@ -2,11 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadCartProductsRequest, getCartProducts, getCartError } from "../../../redux/cartRedux";
 import { getProducts } from "../../../redux/productsRedux";
 import { useEffect, useState } from "react";
-import { Table, Spinner, Form, Button, Modal } from "react-bootstrap";
+import { Table, Spinner, Form, Button, Modal, Row, Col } from "react-bootstrap";
 import { returnImgSrc } from "../../../utils/renderImgSrc";
 import { loadFullUser, getFullUser } from "../../../redux/usersRedux";
 import { API_URL } from "../../../config";
 import { useNavigate } from "react-router-dom";
+import styles from "./CartSummary.module.scss";
 
 const CartSummary = () => {
   const dispatch = useDispatch();
@@ -101,87 +102,99 @@ const CartSummary = () => {
   }, 0);
 
   return (
-    <>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Product Photo</th>
-            <th>Product Title</th>
-            <th>Amount</th>
-            <th>Size</th>
-            <th>Color</th>
-            <th>Price</th>
-            <th>Total Price</th>            
-            <th>Comment</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cartItems.cartItems.map((item, index) => {
-            const productDetails = allProducts.find(product => product.id === item.productId);
-            const totalPrice = productDetails.price * item.amount;
+    <div>
+      <div className={styles.tableContainer}>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product Photo</th>
+              <th>Product Title</th>
+              <th>Amount</th>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Price</th>
+              <th>Total Price</th>            
+              <th>Comment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cartItems.cartItems.map((item, index) => {
+              const productDetails = allProducts.find(product => product.id === item.productId);
+              const totalPrice = productDetails.price * item.amount;
 
-            return (
-              <tr key={item.id}>
-                <td>{index + 1}</td>
-                <td>
-                  <img 
-                    src={returnImgSrc(productDetails.photo)} 
-                    alt="Product" 
-                    style={{ width: "100%", height: "100%", display: "block", maxWidth: "150px" }} 
-                  />
-                </td>
-                <td>{productDetails.title}</td>
-                <td>{item.amount}</td>
-                <td>{item.size}</td>
-                <td>{item.color}</td>
-                <td>{productDetails.price}</td>
-                <td>{totalPrice}</td>
-                <td>{item.comment}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+              return (
+                <tr key={item.id}>
+                  <td>{index + 1}</td>
+                  <td className={styles.squareImageContainer}>
+                    <img 
+                      src={returnImgSrc(productDetails.photo)} 
+                      alt="Product" 
+                      style={{ width: "100%", height: "100%", display: "block", maxWidth: "150px" }} 
+                    />
+                  </td>
+                  <td>{productDetails.title}</td>
+                  <td>{item.amount}</td>
+                  <td>{item.size}</td>
+                  <td>{item.color}</td>
+                  <td>{productDetails.price}</td>
+                  <td>{totalPrice}</td>
+                  <td>{item.comment}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </div>
 
-      <Table bordered>
-        <thead>
-          <tr>
-            <th>Total Amount</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{totalAmount}</td>
-            <td>{totalSum}</td>
-          </tr>
-        </tbody>
-      </Table>
+      <Row>
+        <Col xs={12} md={10} lg={8} xl={6} className="mx-auto">
+          <div className="py-3">
+            <Table bordered>
+              <thead>
+                <tr>
+                  <th>Total Amount</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{totalAmount}</td>
+                  <td>{totalSum}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+        </Col>
+      </Row>
 
-      <Form>
-        <Form.Group className="mb-3">
-          <Form.Label>Client Name</Form.Label>
-          <Form.Control type="text" name="clientName" value={formData.clientName} onChange={handleInputChange} placeholder="Enter client name" />
-        </Form.Group>
+      <Row>
+        <Col xs={12} md={10} lg={8} xl={6} className="mx-auto">
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontWeight: 'bold' }}>Client Name</Form.Label>
+              <Form.Control type="text" name="clientName" value={formData.clientName} onChange={handleInputChange} placeholder="Enter client name" />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter email" />
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontWeight: 'bold' }}>E-mail</Form.Label>
+              <Form.Control type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter email" />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Address</Form.Label>
-          <Form.Control type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Enter address" />
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontWeight: 'bold' }}>Address</Form.Label>
+              <Form.Control type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Enter address" />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Comment to Order</Form.Label>
-          <Form.Control as="textarea" rows={3} name="comment" value={formData.comment} onChange={handleInputChange} placeholder="Add a comment to your order..." />
-        </Form.Group>
-      </Form>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontWeight: 'bold' }}>Comment</Form.Label>
+              <Form.Control as="textarea" rows={3} name="comment" value={formData.comment} onChange={handleInputChange} placeholder="Add a comment to your order..." />
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
       
-      <Button variant="primary" onClick={handleShow}>Send Order</Button>
+      <Button onClick={handleShow} variant="warning" className="text-white mx-auto d-block my-3 p-3">Send Order</Button>
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -205,7 +218,7 @@ const CartSummary = () => {
           </Button>
         </Modal.Footer>
       </Modal>      
-    </>
+    </div>
   );
 };
 
