@@ -2,20 +2,19 @@ import { Navbar, Nav, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
-import styles from "./MainMenu.module.scss";
 
 const MainMenu = () => {
   const user = useSelector(getUser);
 
   return (
-    <div className={styles.MainMenu}>
+    <div>
       <Navbar bg="primary" expand="lg" className="rounded my-3 my-lg-4 px-3 px-lg-5">
         <Navbar.Brand as={Link} to="/" className="text-white" style={{ textDecoration: "none" }}>
           Home
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end pt-2 pt-lg-3">
-          <Nav className={`align-items-center ${styles.menuContent}`}>
+          <Nav className={`align-items-center`}>
             {user && (
               <div className="text-white mb-2 mb-lg-3">Logged as {user.login || user.email}</div>
             )}
