@@ -9,42 +9,42 @@ const MainMenu = () => {
 
   return (
     <div className={styles.MainMenu}>
-      <Navbar bg="primary" expand="lg" className="rounded my-4 px-4">
+      <Navbar bg="primary" expand="lg" className="rounded my-3 my-lg-4 px-3 px-lg-5">
         <Navbar.Brand as={Link} to="/" className="text-white" style={{ textDecoration: "none" }}>
           Home
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end py-3">
-          <Nav className={styles.menuContent}>
+        <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end pt-2 pt-lg-3">
+          <Nav className={`align-items-center ${styles.menuContent}`}>
             {user && (
-              <div className="text-white my-auto pb-3 pb-lg-0">Logged as {user.login || user.email}</div>
+              <div className="text-white mb-2 mb-lg-3">Logged as {user.login || user.email}</div>
             )}
-              <Button 
+            <Button 
                 as={Link} 
                 to={user ? "/cart" : "/login"} 
                 variant="warning" 
-                className="text-white d-block my-3 mx-auto w-100 my-lg-0 py-lg-2"
-                style={{ maxWidth: "200px" }}
-              >
+                className="text-white mb-2 mb-lg-3 mx-lg-3"
+                style={{ minWidth: "100px" }}
+            >
                 Cart
-              </Button>
+            </Button>
             {user && (
-              <Nav.Link as={Link} to="/orders" className="text-white d-block py-3 py-lg-0" style={{ textDecoration: "none" }}>
+              <Nav.Link as={Link} to="/orders" className="text-white mb-2 mb-lg-3 mr-lg-2" style={{ textDecoration: "none" }}>
                 Orders
               </Nav.Link>
             )}
             {!user && (
-              <Nav.Link as={Link} to="/login" className="text-white d-block py-3 py-lg-0" style={{ textDecoration: "none" }}>
+              <Nav.Link as={Link} to="/login" className="text-white mb-2 mb-lg-3 mr-lg-2" style={{ textDecoration: "none" }}>
                 Sign In
               </Nav.Link>
             )}
             {user && (
-              <Nav.Link as={Link} to="/logout" className="text-white d-block py-3 py-lg-0" style={{ textDecoration: "none" }}>
+              <Nav.Link as={Link} to="/logout" className="text-white mb-2 mb-lg-3 mr-lg-2" style={{ textDecoration: "none" }}>
                 Sign Out
               </Nav.Link>
             )}
             {!user && (
-              <Nav.Link as={Link} to="/register" className="text-white d-block py-3 py-lg-0" style={{ textDecoration: "none" }}>
+              <Nav.Link as={Link} to="/register" className="text-white mb-2 mb-lg-3" style={{ textDecoration: "none" }}>
                 Sign Up
               </Nav.Link>
             )}

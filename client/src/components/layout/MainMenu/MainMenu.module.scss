@@ -1,18 +1,3 @@
 .MainMenu {
- .menuContent {
-  text-align: center;
- }
-}
-
-@media (min-width: 992px) {
-  .menuContent {
-    min-width: 650px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    > * {
-      padding: 0 15px!important;
-    }
-  }
+  
 }
