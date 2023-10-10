@@ -31,6 +31,7 @@ const OrderDetails = () => {
 
   return (
     <div>
+      <h2 className="mb-3 text-center">Order OrderOverview</h2>
       <OrderOverview />
     </div>
   );
