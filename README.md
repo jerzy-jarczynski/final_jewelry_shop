@@ -1,73 +1,72 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Bootcamp Final Project - Full Stack Jewelry Shop
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+`final_jewelry_shop` is a full-stack application that allows you to create an account in the store, log in, browse products, basket contents and orders, add to the basket and create an order.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The project was implemented during the **Kodilla Bootcamp Full Stack Developer** course.
+No design guidelines or .psd template were provided with the page.
 
 ## Installation
 
-```bash
-$ npm install
+Clone the repository from github. You can use ssh:
+```
+git clone git@github.com:jerzy-jarczynski/final_jewelry_shop.git
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+Open a terminal in the project directory and go to the client directory to install React packages. You can use yarn:
+```
+cd client
+```
+```
+yarn install
+```
+```
+yarn build
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+Return to the root of the project and install the packages for the server:
+```
+cd ..
+```
+```
+npm install
 ```
 
-## Support
+Run the server:
+```
+npm run start
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+the application will be available at:
+```
+http://localhost:8000/
+```
 
-## Stay in touch
+> Note: if you want the application to be fully functional on your local machine, you need to install and configure MySQL.
+Remember to properly edit the `.env` file containing database access data. Adding products is done using Postman. It is not possible to add products from the client level.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Used technologies
+
+`HTML`, `CSS`, `JavaScript`, `NestJS`, `React`, `MySQL`, `Prisma`
+
+> Note: The appearance of the website is fully based on ready-made Bootstrap components. The layout was not provided for the project, so I focused on full functionality, leaving the issue of nice appearance until after the project was completed.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## Demo
+
+You can see living demo without cloning or downloading the repo:
+
+https://nestjs-react-jewelry-shop.onrender.com/
+
+## Issues
+
+The application is not fully developed in terms of UX. I focused on implementing the design guidelines and requirements, leaving these issues to be refined later. I have not introduced any data sorting mechanism in the basket and orders. The website may not encourage you to make purchases by having modals that pop up at every step asking you to confirm your action. This is an academic application and will not be used for commercial purposes.
